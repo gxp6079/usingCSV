@@ -9,6 +9,10 @@ import java.util.List;
 
 public class Main {
 
+    // CONFIGURATIONS:
+    // Ex2.csv "Renda Fixa" "Renda Variável" 4
+    // Ex2.csv "Ativos" "Rentabilidade" 2
+
     public static void main(String[] args) {
         if(args.length < 4) {
             System.out.println("Format of the arguments: filename start end");
