@@ -1,23 +1,52 @@
 package com.company;
 
-import org.apache.commons.collections.list.LazyList;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Table {
     private int page;
     private int id;
     private List<List<String>> table;
+
+    /**
+     * maps header column to header
+     */
+    private Map<Integer, Header> headerList;
+
+    /**
+     * mapping header column to number of children
+     */
     private HashMap<Integer, Integer> headers;
+
+    /**
+     * mapping subHeader column to the sub header
+     */
+    private Map<Integer, Header> subHeaders;
     private ArrayList<Integer> headIndexes;
 
     public Table(int page, int id){
+        this.headerList = new TreeMap<Integer, Header>();
+        this.subHeaders =  new TreeMap<Integer, Header>();
         this.page = page;
         this.id = id;
         this.table = new ArrayList<List<String>>();
         this.headIndexes = new ArrayList<>();
+    }
+
+
+    public void addHeader(Header header) {
+        this.headerList.put(header.getCol(), header);
+    }
+
+    public void addSubHeader(Header sub) {
+        this.subHeaders.put(sub.getCol(), sub);
+    }
+
+    public Header getHeader(int col) {
+        return headerList.get(col);
+    }
+
+    public Header getSubHeader(int col) {
+        return subHeaders.get(col);
     }
 
     public void initHeaders(HashMap<Integer, Integer> headers){
