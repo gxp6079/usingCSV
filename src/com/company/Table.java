@@ -1,5 +1,7 @@
 package com.company;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.*;
 
 public class Table {
@@ -60,10 +62,32 @@ public class Table {
         return this.page;
     }
 
-    /**
     public String toString(){
+        String s = "";
+        for (Header header : headerList.values()){
+            s += header.toString();
+            for (Header child : header.getChildren()){
+                s += StringUtils.repeat(' ', child.getValue().length());
+            }
+            s += "| ";
+        }
+        s += "\n";
+        String subs = "";
+        for (Header subHeader : subHeaders.values()){
+            for(int i :  headerList.keySet()){
+                Header top = headerList.get(i);
+                if(top != subHeader.getParent()) {
+                    subs += StringUtils.repeat(' ', top.getValue().length());
+                    subs += "| ";
+                    i++;
+                }
+                else{
+                    subs += subHeader.toString();
+                }
+            }
 
+        }
+        return s;
     }
-     */
 
 }

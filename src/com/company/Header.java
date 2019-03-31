@@ -68,6 +68,10 @@ public class Header {
 
     public List<Header> getChildren() { return this.children; }
 
+    public int getSizeChildren(){
+        return this.children.size();
+    }
+
     @Override
     public String toString() {
         return this.value;
