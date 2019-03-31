@@ -67,9 +67,6 @@ public class Main {
 
         Table table =  new Table(page, 0);
 
-        //maps the index of the header to the amount of columns it contains
-        HashMap<Integer, Integer> headers = new HashMap<>();
-
         /*
          * places you have seen data before
          */
@@ -85,13 +82,11 @@ public class Main {
                 tableRow.add(list.get(row)[col]);
 
                 indexes.add(col);
-                headers.put(col, 1);
 
             }
         }
 
         table.addRow(tableRow);
-        table.initHeaders(headers);
         tableRow = new ArrayList<String>();
 
         row++;
@@ -120,10 +115,12 @@ public class Main {
                             Header parent = table.getHeader(col);
                             Header child = new Header(row, col, value, parent);
                             table.addSubHeader(child);
+                            table.updateHeader(parent.getCol(), child);
                         } else if (lastSubHeader != null && lastSubHeader.getRow() == row) {
                             Header sub = table.getSubHeader(lastData);
                             Header child = new Header(row, col, value, sub.getParent());
                             table.addSubHeader(child);
+                            table.updateHeader(sub.getParent().getCol(), child);
                         } else {
                             Header header = new Header(row, col, value);
                             table.addHeader(header);
@@ -172,7 +169,7 @@ public class Main {
                                             table.addHeader(child);
                                         }
 
-                                        //table.updateHeader(indexes.get(idx));
+                                        table.updateHeader(parent.getCol(), child);
                                     }
                                     // checking if you are between two indexes that youve seen data before
                                     else if (col > indexes.get(idx) && col < indexes.get(idx + 1)) {
@@ -188,7 +185,7 @@ public class Main {
                                             table.addHeader(child);
                                         }
 
-                                        table.updateHeader(indexes.get(idx));
+                                        table.updateHeader(parent.getCol(), child);
                                         break;
                                     }
                                 }

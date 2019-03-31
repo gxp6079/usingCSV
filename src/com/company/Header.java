@@ -1,10 +1,14 @@
 package com.company;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Header {
     private String value;
     private int row;
     private int col;
     private Header parent;
+    private List<Header> children;
 
     /**
      * constructor where there is no parent
@@ -17,6 +21,7 @@ public class Header {
         this.row = row;
         this.col = col;
         this.parent = null;
+        this.children = new ArrayList<Header>();
     }
 
     /**
@@ -31,6 +36,7 @@ public class Header {
         this.row = row;
         this.col = col;
         this.parent = parent;
+        this.children = new ArrayList<Header>();
     }
 
     public int getRow() {
@@ -53,6 +59,14 @@ public class Header {
     public boolean hasParent() {
         return this.parent != null;
     }
+
+    public boolean hasChildren() { return children.size() != 0; }
+
+    public void addChild(Header child){
+        children.add(child);
+    }
+
+    public List<Header> getChildren() { return this.children; }
 
     @Override
     public String toString() {
