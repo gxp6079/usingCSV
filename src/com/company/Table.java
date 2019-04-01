@@ -57,7 +57,7 @@ public class Table {
         table.add(new ArrayList<>(row));
     }
 
-    public String getDataAt(String header, String row) {
+    public ArrayList<String> getDataAt(String header, String row) {
         int col = 0;
         for (int i : headerList.keySet()) {
             if (headerList.get(i).hasChildren()) {
@@ -70,13 +70,11 @@ public class Table {
                 col++;
             }
         }
-        int rowIdx = 0;
-        for (int i = 0; i < table.size(); i++) {
-            if (table.get(rowIdx).get(0).equals(row)) break;
-            rowIdx++;
+        ArrayList<String> data = new ArrayList<>();
+        for(int i = 0 ; i < table.size() ; i++){
+            data.add(table.get(i).get(col));
         }
-
-        return table.get(rowIdx).get(col);
+        return data;
     }
 
 

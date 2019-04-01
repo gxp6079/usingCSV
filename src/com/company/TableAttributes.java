@@ -1,6 +1,8 @@
 package com.company;
 
-public class TableAttributes {
+import java.io.Serializable;
+
+public class TableAttributes implements Serializable {
     public final String START;
     public final String END;
     public final int PAGE;
