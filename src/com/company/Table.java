@@ -9,6 +9,9 @@ public class Table {
     private int id;
     private List<List<String>> table;
 
+    private String start;
+    private String end;
+
     /**
      * maps header column to header
      */
@@ -20,11 +23,14 @@ public class Table {
      */
     private Map<Integer, Header> subHeaders;
 
-    public Table(int page, int id){
+    public Table(int page, String start, String end){
         this.headerList = new TreeMap<Integer, Header>();
         this.subHeaders =  new TreeMap<Integer, Header>();
         this.page = page;
-        this.id = id;
+        this.start = start;
+        this.end = end;
+        String temp = start + end + Integer.toString(page);
+        this.id = temp.hashCode();
         this.table = new ArrayList<List<String>>();
     }
 
