@@ -72,27 +72,15 @@ public class Table {
         String subs = "";
         for (Header parent :headerList.values()){
             if(!parent.hasChildren()){
-                subs += StringUtils.repeat(' ', parent.getLength());
                 subs += "| ";
             }
             else{
-                int toAdd = parent.getLength();
                 Header child = null;
                 for (int i = 0 ; i < parent.getChildren().size() ; i++){
                     child = parent.getChildren().get(i);
                     subs += child.toString();
-                    toAdd -= child.getLength();
-                    if(i != parent.getChildren().size() - 1){
-                        subs += "| ";
-                    }
+                    subs += "| ";
                 }
-                if(toAdd > 0){
-                    subs += StringUtils.repeat(' ', toAdd);
-                    if(child != null){
-                        child.updateLength(child.getLength() + toAdd);
-                    }
-                }
-                subs += "| ";
             }
         }
         subs += "\n";
@@ -102,19 +90,6 @@ public class Table {
             int idx = 0;
             for(String value : row){
                 rowString += value;
-                while(idx < headerList.keySet().size() && (!headerList.keySet().contains(idx)) && !subHeaders.keySet().contains(idx)){
-                    idx++;
-                }
-                int toAdd = 0;
-                if(headerList.keySet().contains(idx)){
-                    toAdd = headerList.get(idx).getLength() - value.length();
-                }
-                else if(subHeaders.keySet().contains(idx)){
-                    toAdd = subHeaders.get(idx).getLength() - value.length();
-                }
-                if(toAdd > 0){
-                    rowString += StringUtils.repeat(' ', toAdd);
-                }
                 rowString += "| ";
             }
             rowString += "\n";

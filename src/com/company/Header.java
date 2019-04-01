@@ -94,7 +94,6 @@ public class Header {
                 s += StringUtils.repeat(' ', toAdd);
             }
         }
-        s += StringUtils.repeat(' ', 12);
         updateLength(s.length());
         return s;
     }
