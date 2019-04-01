@@ -51,7 +51,7 @@ public class Table {
     }
 
     public void addRow(List<String> row){
-        table.add(row);
+        table.add(new ArrayList<>(row));
     }
 
     public int getId(){

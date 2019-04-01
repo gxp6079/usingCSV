@@ -61,7 +61,7 @@ public class TableFactory {
                 if(!list.get(row)[leftCol].equals("")) table.addRow(tableRow);
                 col = 0;
                 tableRow.clear();
-                row++;
+                this.row++;
             } else {
                 col++;
             }

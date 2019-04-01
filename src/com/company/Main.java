@@ -29,7 +29,9 @@ public class Main {
             e.printStackTrace();
         }
         try {
-            Table table = makeTables(readAll(br), start, end, page);
+            TableFactory tableFactory = new TableFactory(readAll(br), start, end);
+            Table table = tableFactory.makeTable(page);
+            //Table table = makeTables(readAll(br), start, end, page);
             System.out.println(table);
         } catch (Exception e) {
             e.printStackTrace();
