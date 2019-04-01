@@ -30,7 +30,7 @@ public class Main {
         }
         try {
             Table table = makeTables(readAll(br), start, end, page);
-            String tableS = table.toString();
+            System.out.println(table);
         } catch (Exception e) {
             e.printStackTrace();
         }

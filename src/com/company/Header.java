@@ -1,5 +1,7 @@
 package com.company;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ public class Header {
     private int col;
     private Header parent;
     private List<Header> children;
+    private int length;
 
     /**
      * constructor where there is no parent
@@ -22,6 +25,7 @@ public class Header {
         this.col = col;
         this.parent = null;
         this.children = new ArrayList<Header>();
+        this.length = value.length();
     }
 
     /**
@@ -37,6 +41,7 @@ public class Header {
         this.col = col;
         this.parent = parent;
         this.children = new ArrayList<Header>();
+        this.length = value.length();
     }
 
     public int getRow() {
@@ -72,8 +77,25 @@ public class Header {
         return this.children.size();
     }
 
+    public void updateLength(int update){ this.length = update;}
+
+    public int getLength(){return this.length;}
+
     @Override
     public String toString() {
-        return this.value;
+        String s = "";
+        s += this.value;
+        if(parent == null) {
+            int toAdd = -this.value.length();
+            for (Header child : getChildren()) {
+                toAdd += child.getValue().length();
+            }
+            if (toAdd > 0) {
+                s += StringUtils.repeat(' ', toAdd);
+            }
+        }
+        s += StringUtils.repeat(' ', 12);
+        updateLength(s.length());
+        return s;
     }
 }
