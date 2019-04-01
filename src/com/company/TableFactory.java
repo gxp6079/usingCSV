@@ -4,17 +4,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TableFactory {
+    /**
+     * left most column of the table
+     */
     private int leftCol;
+
+    /**
+     * page that the table lies on
+     */
     private int page;
+
+    /**
+     * current column that the factory is currently looking at
+     */
     private int col;
+
+    /**
+     * current row that the factory is currently looking at
+     */
     private int row;
+
+    /**
+     * list of string arrays, aka csv file text
+     */
     private List<String[]> list;
+
+    /**
+     * list of indexes we have seen data at
+     */
     private ArrayList<Integer> dataIndexes;
 
+    /**
+     * list of strings that is constantly updated and eventually sent to the table
+     */
     private ArrayList<String> tableRow;
 
-
+    /**
+     * start of word for the table
+     */
     private final String start;
+
+    /**
+     * end word of the table
+     */
     private final String end;
 
 
