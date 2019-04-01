@@ -29,9 +29,10 @@ public class Main {
             e.printStackTrace();
         }
         try {
-            TableFactory tableFactory = new TableFactory(readAll(br), start, end);
-            Table table = tableFactory.makeTable(page);
-            System.out.println(table.getDataAt("Ago/18", "Renda Variável"));
+            TableFactory tableFactory = new TableFactory(readAll(br));
+            tableFactory.initialize(start, end, page);
+            Table table = tableFactory.makeTable();
+            System.out.println(table.getDataAt("Ago/18"));
             //Table table = makeTables(readAll(br), start, end, page);
             //System.out.println(table);
         } catch (Exception e) {

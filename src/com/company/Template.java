@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Template implements Serializable {
     private List<TableAttributes> tables;
@@ -24,6 +25,10 @@ public class Template implements Serializable {
 
     public void addField(Field field){
         fields.replace(field.NAME, field);
+    }
+
+    public Map<String, Field> getFields() {
+        return this.fields;
     }
 
     public List<TableAttributes> getTables() {

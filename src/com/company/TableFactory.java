@@ -42,30 +42,44 @@ public class TableFactory {
     /**
      * start of word for the table
      */
-    private final String start;
+    private String start;
 
     /**
      * end word of the table
      */
-    private final String end;
+    private String end;
 
 
-    public TableFactory(List<String[]> list, String start, String end) {
+    public TableFactory(List<String[]> list) {
         this.tableRow = new ArrayList<>();
         this.dataIndexes = new ArrayList<>();
         this.list = list;
         this.row = 0;
         this.col = 0;
-        this.page = 1;
+        this.page = page = -1;
 
+        this.start = start = "";
+        this.end = end = "";
+    }
+
+
+    public void initialize(String start, String end, int page) {
+        this.tableRow.clear();
+        this.dataIndexes.clear();
+        this.row = 0;
+        this.col = 0;
+        this.page = page;
         this.start = start;
         this.end = end;
     }
 
-    public Table makeTable(int page) {
-        while(this.page != page){
+
+    public Table makeTable() {
+        if (this.page == -1) return null;
+        int currPage = 1;
+        while(this.page != currPage){
             if(list.get(this.row).length == 1 && list.get(this.row)[0].equals("")){
-                this.page ++;
+                currPage ++;
             }
             this.row++;
         }

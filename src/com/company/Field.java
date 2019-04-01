@@ -17,7 +17,7 @@ public class Field implements Serializable {
     }
 
     public ArrayList<String> getValue(Table table){
-        return table.getDataAt(HEADER, ROW);
+        return table.getDataAt(HEADER);
     }
 
 }
