@@ -6,7 +6,6 @@ import java.util.*;
 
 public class Table {
     private int page;
-    private int id;
     private List<List<String>> table;
 
     private String start;
@@ -29,8 +28,6 @@ public class Table {
         this.page = page;
         this.start = start;
         this.end = end;
-        String temp = start + end + Integer.toString(page);
-        this.id = temp.hashCode();
         this.table = new ArrayList<List<String>>();
     }
 
@@ -60,9 +57,28 @@ public class Table {
         table.add(new ArrayList<>(row));
     }
 
-    public int getId(){
-        return this.id;
+    public String getDataAt(String header, String row) {
+        int col = 0;
+        for (int i : headerList.keySet()) {
+            if (headerList.get(i).hasChildren()) {
+                for (Header h : headerList.get(i).getChildren()) {
+                    if (h.getValue().equals(header)) break;
+                    col++;
+                }
+            } else {
+                if (headerList.get(i).getValue().equals(header)) break;
+                col++;
+            }
+        }
+        int rowIdx = 0;
+        for (int i = 0; i < table.size(); i++) {
+            if (table.get(rowIdx).get(0).equals(row)) break;
+            rowIdx++;
+        }
+
+        return table.get(rowIdx).get(col);
     }
+
 
     public int getPage(){
         return this.page;
@@ -104,4 +120,9 @@ public class Table {
         return s;
     }
 
+
+    @Override
+    public int hashCode() {
+        return start.hashCode() + end.hashCode() + page;
+    }
 }

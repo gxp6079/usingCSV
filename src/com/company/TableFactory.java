@@ -71,7 +71,7 @@ public class TableFactory {
         }
 
         this.getLeftCol(start);
-        Table table = new Table(page, start, end); //TODO make id specific to a table
+        Table table = new Table(page, start, end);
 
         initializeHeaders(table);
 
