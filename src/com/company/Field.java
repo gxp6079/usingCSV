@@ -7,13 +7,11 @@ public class Field implements Serializable {
     public final String NAME;
     public final int TABLE_ID;
     public final String HEADER;
-    public final String ROW;
 
-    public Field(String name, int table, String header, String row){
+    public Field(String name, int table, String header){
         this.NAME = name;
         this.TABLE_ID = table;
         this.HEADER = header;
-        this.ROW = row;
     }
 
     public ArrayList<String> getValue(Table table){
