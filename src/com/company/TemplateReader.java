@@ -27,7 +27,9 @@ public class TemplateReader {
             Map<String, List<String>> values = new HashMap<>();
 
             for (Field field : template.getFields().values()) {
-                values.put(field.NAME, field.getValue(tables.get(field.TABLE_ID)));
+                List<String> value = field.getValue(tables.get(field.TABLE_ID));
+                values.put(field.NAME, value);
+                System.out.println(value);
             }
 
 
@@ -46,8 +48,9 @@ public class TemplateReader {
             TableFactory tableFactory = new TableFactory(list);
 
             TableAttributes attributes;
-            while(scan.hasNextLine()){
-                String[] allAtributes = scan.nextLine().split(" ");
+            String attString = scan.nextLine();
+            while(!attString.equals("")){
+                String[] allAtributes = attString.split(",");
                 String start = allAtributes[0];
                 String end = allAtributes[1];
                 int page = Integer.valueOf(allAtributes[2]);
@@ -58,6 +61,7 @@ public class TemplateReader {
                 tableFactory.initialize(start, end, page);
                 Table table = tableFactory.makeTable();
                 tables.put(table.hashCode(), table);
+                attString = scan.nextLine();
             }
 
             for(Integer id : tables.keySet()){
@@ -66,8 +70,8 @@ public class TemplateReader {
             }
 
             for(String fieldName : template.getFields().keySet()){
-                System.out.println("Input the location of " + fieldName + "(format : id header)");
-                String[] loc = scan.nextLine().split(" ");
+                System.out.println("Input the location of " + fieldName + "(format : id,header)");
+                String[] loc = scan.nextLine().split(",");
                 int idTarget = Integer.valueOf(loc[0]);
                 String header = loc[1];
                 template.addField(new Field(fieldName, idTarget, header));

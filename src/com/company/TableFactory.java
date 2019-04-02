@@ -112,7 +112,6 @@ public class TableFactory {
                 col++;
             }
         }
-
         return table;
     }
 

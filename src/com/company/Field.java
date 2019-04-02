@@ -2,6 +2,7 @@ package com.company;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Field implements Serializable {
     public final String NAME;
@@ -14,7 +15,7 @@ public class Field implements Serializable {
         this.HEADER = header;
     }
 
-    public ArrayList<String> getValue(Table table){
+    public List<String> getValue(Table table){
         return table.getDataAt(HEADER);
     }
 

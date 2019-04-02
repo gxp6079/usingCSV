@@ -4,12 +4,15 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
+import static java.util.Collections.min;
+
 public class Table {
     private int page;
     private List<List<String>> table;
 
     private String start;
     private String end;
+
 
     /**
      * maps header column to header
@@ -31,6 +34,9 @@ public class Table {
         this.table = new ArrayList<List<String>>();
     }
 
+    public List<List<String>> getTable(){
+        return this.table;
+    }
 
     public void addHeader(Header header) {
         this.headerList.put(header.getCol(), header);
@@ -57,10 +63,11 @@ public class Table {
         table.add(new ArrayList<>(row));
     }
 
-    public ArrayList<String> getDataAt(String header) {
+    public List<String> getDataAt(String header) {
         int col = 0;
         for (int i : headerList.keySet()) {
-            if (headerList.get(i).hasChildren()) {
+            if (headerList.get(i).getValue().equals(header)) break;
+            else if (headerList.get(i).hasChildren()) {
                 for (Header h : headerList.get(i).getChildren()) {
                     if (h.getValue().equals(header)) break;
                     col++;
@@ -71,7 +78,7 @@ public class Table {
             }
         }
         ArrayList<String> data = new ArrayList<>();
-        for(int i = 0 ; i < table.size() ; i++){
+        for (int i = 0; i < table.size(); i++) {
             data.add(table.get(i).get(col));
         }
         return data;
