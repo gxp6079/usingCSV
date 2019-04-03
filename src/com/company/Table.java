@@ -7,7 +7,6 @@ import java.util.*;
 import static java.util.Collections.min;
 
 public class Table {
-    private int page;
     private List<List<String>> table;
 
     private String start;
@@ -25,10 +24,9 @@ public class Table {
      */
     private Map<Integer, Header> subHeaders;
 
-    public Table(int page, String start, String end){
+    public Table(String start, String end){
         this.headerList = new TreeMap<Integer, Header>();
         this.subHeaders =  new TreeMap<Integer, Header>();
-        this.page = page;
         this.start = start;
         this.end = end;
         this.table = new ArrayList<List<String>>();
@@ -100,11 +98,6 @@ public class Table {
         return data;
     }
 
-
-    public int getPage(){
-        return this.page;
-    }
-
     public String toString(){
         String s = "";
         for (Header header : headerList.values()){
@@ -144,6 +137,6 @@ public class Table {
 
     @Override
     public int hashCode() {
-        return start.hashCode() + end.hashCode() + page;
+        return start.hashCode() + end.hashCode();
     }
 }

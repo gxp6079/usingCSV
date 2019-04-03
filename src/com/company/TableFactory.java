@@ -2,17 +2,13 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class TableFactory {
     /**
      * left most column of the table
      */
     private int leftCol;
-
-    /**
-     * page that the table lies on
-     */
-    private int page;
 
     /**
      * current column that the factory is currently looking at
@@ -56,38 +52,66 @@ public class TableFactory {
         this.list = list;
         this.row = 0;
         this.col = 0;
-        this.page = page = -1;
 
         this.start = start = "";
         this.end = end = "";
     }
 
 
-    public void initialize(String start, String end, int page) {
+    public void initialize(String start, String end) {
         this.tableRow.clear();
         this.dataIndexes.clear();
         this.row = 0;
         this.col = 0;
-        this.page = page;
         this.start = start;
         this.end = end;
     }
 
+    public List<Integer[]> getLocation(String start){
+        List<Integer[]> locations = new ArrayList<>();
+        int leftCol = 0;
+        int row = 0;
+        while(row < list.size()){
+            if(list.get(row)[leftCol].equals(start)){
+                Integer[] loc = new Integer[2];
+                loc[0] = row;
+                loc[1] = leftCol;
+                locations.add(loc);
+            }
+            if(leftCol == list.get(row).length - 1){
+                leftCol = 0;
+                row ++;
+            }
+            else{
+                leftCol++;
+            }
+        }
+        return locations;
+    }
+
 
     public Table makeTable() {
-        if (this.page == -1) return null;
-        int currPage = 1;
-        while(this.page != currPage){
-            if(list.get(this.row).length == 1 && list.get(this.row)[0].equals("")){
-                currPage ++;
-            }
-            this.row++;
-        }
 
         boolean finishedHead = false;
 
-        this.getLeftCol(start);
-        Table table = new Table(page, start, end);
+        List<Integer[]> locations = getLocation(start);
+        if(locations.size() != 1){
+            if(locations.size() == 0){
+                System.out.println("Start not found");
+            }
+            else{
+                System.out.println(start + "was found " +Integer.toString(locations.size()) + " times, please enter which #n");
+                Scanner scan = new Scanner(System.in);
+                int n = Integer.valueOf(scan.nextLine());
+                this.row = locations.get(n - 1)[0];
+                this.leftCol = locations.get(n - 1)[1];
+            }
+        }
+        else{
+            this.row = locations.get(0)[0];
+            this.leftCol = locations.get(0)[1];
+        }
+        Table table = new Table(start, end);
 
         initializeHeaders(table);
 
@@ -228,21 +252,6 @@ public class TableFactory {
                 dataIndexes.add(col);
             }
         }
-    }
-
-
-    private void getLeftCol(String start) {
-        this.leftCol = 0;
-        while(!list.get(row)[leftCol].equals(start)){
-            if(leftCol == list.get(row).length - 1){
-                leftCol = 0;
-                row ++;
-            }
-            else{
-                leftCol++;
-            }
-        }
-
     }
 
 }

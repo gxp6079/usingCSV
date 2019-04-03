@@ -16,7 +16,7 @@ public class TemplateReader {
 
             TableFactory tableFactory = new TableFactory(list);
             for (TableAttributes ta : template.getTables()) {
-                tableFactory.initialize(ta.START, ta.END, ta.PAGE);
+                tableFactory.initialize(ta.START, ta.END);
                 Table table = tableFactory.makeTable();
                 if (table != null) tables.put(table.hashCode(), table);
             }
@@ -53,12 +53,11 @@ public class TemplateReader {
                 String[] allAtributes = attString.split(",");
                 String start = allAtributes[0];
                 String end = allAtributes[1];
-                int page = Integer.valueOf(allAtributes[2]);
-                attributes = new TableAttributes(start, end, page);
+                attributes = new TableAttributes(start, end);
 
                 template.addTable(attributes);
 
-                tableFactory.initialize(start, end, page);
+                tableFactory.initialize(start, end);
                 Table table = tableFactory.makeTable();
                 tables.put(table.hashCode(), table);
                 attString = scan.nextLine();
@@ -67,6 +66,7 @@ public class TemplateReader {
             for(Integer id : tables.keySet()){
                 System.out.println(id);
                 System.out.println(tables.get(id));
+                System.out.println("\n");
             }
 
             for(String fieldName : template.getFields().keySet()){
