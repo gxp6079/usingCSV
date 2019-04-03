@@ -64,19 +64,35 @@ public class Table {
     }
 
     public List<String> getDataAt(String header) {
+        boolean found = false;
         int col = 0;
         for (int i : headerList.keySet()) {
             if (headerList.get(i).getValue().equals(header)) break;
             else if (headerList.get(i).hasChildren()) {
                 for (Header h : headerList.get(i).getChildren()) {
-                    if (h.getValue().equals(header)) break;
+                    if (h.getValue().equals(header)){
+                        found = true;
+                        break;
+                    }
                     col++;
                 }
             } else {
-                if (headerList.get(i).getValue().equals(header)) break;
+                if (headerList.get(i).getValue().equals(header)){
+                    found = true;
+                    break;
+                }
                 col++;
             }
         }
+
+        if (!found){
+            for (List<String> row : table){
+                if(row.get(0).equals(header)){
+                    return row.subList(1, row.size());
+                }
+            }
+        }
+
         ArrayList<String> data = new ArrayList<>();
         for (int i = 0; i < table.size(); i++) {
             data.add(table.get(i).get(col));

@@ -84,12 +84,13 @@ public class TableFactory {
             this.row++;
         }
 
+        boolean finishedHead = false;
+
         this.getLeftCol(start);
         Table table = new Table(page, start, end);
 
         initializeHeaders(table);
 
-        //table.addRow(tableRow);
         tableRow.clear();
 
         this.row++;
@@ -98,7 +99,8 @@ public class TableFactory {
         while(!val.equals(end)) {
             val = list.get(row)[col];
             if (col >= leftCol) {
-                checkEntry(table);
+                if(col == leftCol && !val.equals("")) finishedHead = true;
+                checkEntry(table, finishedHead);
                 if (!val.equals("")) tableRow.add(val);
                 else if (val.equals("") && dataIndexes.contains(col)) tableRow.add(val);
             }
@@ -116,10 +118,10 @@ public class TableFactory {
     }
 
 
-    private void checkEntry(Table table) {
+    private void checkEntry(Table table, boolean finishedHead) {
         String val = list.get(row)[col];
         if (!val.equals("")) {
-            if (list.get(row)[leftCol].equals("")) {
+            if (!finishedHead && list.get(row)[leftCol].equals("")) {
                 makeSubHeader(table, val);
             } else {
                 if (!dataIndexes.contains(this.col)) {
