@@ -100,7 +100,7 @@ public class TableFactory {
                 System.out.println("Start not found");
             }
             else{
-                System.out.println(start + "was found " +Integer.toString(locations.size()) + " times, please enter which #n");
+                System.out.println(start + " was found " +Integer.toString(locations.size()) + " times, please enter which #n");
                 Scanner scan = new Scanner(System.in);
                 int n = Integer.valueOf(scan.nextLine());
                 this.row = locations.get(n - 1)[0];
