@@ -59,6 +59,7 @@ public class Table {
 
     public List<String> getDataAt(String header) {
         boolean found = false;
+        header = header.trim().toLowerCase();
         int col = 0;
         for (int i : headerList.keySet()) {
             if (headerList.get(i).getValue().equals(header)) break;

@@ -65,9 +65,9 @@ public class TableFactory {
         this.dataIndexes.clear();
         this.row = 0;
         this.col = 0;
-        this.start = start;
-        this.end = end;
-        this.locations = getLocation(start);
+        this.start = start.trim().toLowerCase();
+        this.end = end.trim().toLowerCase();
+        this.locations = getLocation(this.start);
     }
 
     public List<Integer[]> getLocation(String start){
@@ -75,7 +75,7 @@ public class TableFactory {
         int leftCol = 0;
         int row = 0;
         while(row < list.size()){
-            if(list.get(row)[leftCol].equals(start)){
+            if(list.get(row)[leftCol].trim().toLowerCase().equals(start)){
                 Integer[] loc = new Integer[2];
                 loc[0] = row;
                 loc[1] = leftCol;
@@ -107,9 +107,6 @@ public class TableFactory {
                 System.out.println("Start not found");
             }
             else{
-                // System.out.println(start + "was found " +Integer.toString(locations.size()) + " times, please enter which #n");
-                // Scanner scan = new Scanner(System.in);
-                // int n = Integer.valueOf(scan.nextLine());
                 this.row = locations.get(location - 1)[0];
                 this.leftCol = locations.get(location - 1)[1];
             }
@@ -126,9 +123,9 @@ public class TableFactory {
 
         this.row++;
         this.col = this.leftCol;
-        String val = list.get(row)[col];
+        String val = list.get(row)[col].trim().toLowerCase();
         while(!val.equals(end)) {
-            val = list.get(row)[col];
+            val = list.get(row)[col].trim().toLowerCase();
             if (col >= leftCol) {
                 if(col == leftCol && !val.equals("")) finishedHead = true;
                 checkEntry(table, finishedHead);
@@ -150,9 +147,9 @@ public class TableFactory {
 
 
     private void checkEntry(Table table, boolean finishedHead) {
-        String val = list.get(row)[col];
+        String val = list.get(row)[col].trim().toLowerCase();
         if (!val.equals("")) {
-            if (!finishedHead && list.get(row)[leftCol].equals("")) {
+            if (!finishedHead && list.get(row)[leftCol].trim().equals("")) {
                 makeSubHeader(table, val);
             } else {
                 if (!dataIndexes.contains(this.col)) {
@@ -198,12 +195,12 @@ public class TableFactory {
             else break;
         }
 
-        if (list.get(row)[lastData].equals("")) {
+        if (list.get(row)[lastData].trim().equals("")) {
             tableRow.remove(tableRow.size() - 1);
         } else {
             for (int idx = 0; idx < dataIndexes.size(); idx++) {
                 if (idx == dataIndexes.size() - 1) {
-                    String val = list.get(row)[col];
+                    String val = list.get(row)[col].trim().toLowerCase();
                     Header parent = table.getHeader(col);
 
                     Header child;
@@ -222,7 +219,7 @@ public class TableFactory {
 
                 } else if (col > dataIndexes.get(idx) && col < dataIndexes.get(idx + 1)){
                     Header parent = table.getHeader(dataIndexes.get(idx));
-                    Header child = new Header(row, col, list.get(row)[col], parent);
+                    Header child = new Header(row, col, list.get(row)[col].trim().toLowerCase(), parent);
 
                     if (child.hasParent()) {
                         table.addSubHeader(child);
@@ -250,7 +247,7 @@ public class TableFactory {
 
     private void initializeHeaders(Table table) {
         for (this.col = this.leftCol; this.col < list.get(this.row).length; this.col++) {
-            String val = list.get(this.row)[this.col];
+            String val = list.get(this.row)[this.col].trim().toLowerCase();
             if (!val.equals("")) {
                 Header header = new Header(this.row, this.col, val);
                 table.addHeader(header);
