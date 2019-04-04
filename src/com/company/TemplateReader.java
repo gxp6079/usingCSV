@@ -17,7 +17,7 @@ public class TemplateReader {
             TableFactory tableFactory = new TableFactory(list);
             for (TableAttributes ta : template.getTables()) {
                 tableFactory.initialize(ta.START, ta.END);
-                Table table = tableFactory.makeTable();
+                Table table = tableFactory.makeTable(ta.getOccurrence());
                 if (table != null) tables.put(table.hashCode(), table);
             }
 
@@ -48,6 +48,7 @@ public class TemplateReader {
             TableFactory tableFactory = new TableFactory(list);
 
             TableAttributes attributes;
+            System.out.println("Enter the start and end to tables that you would like");
             String attString = scan.nextLine();
             while(!attString.equals("")){
                 String[] allAtributes = attString.split(",");
@@ -55,10 +56,17 @@ public class TemplateReader {
                 String end = allAtributes[1];
                 attributes = new TableAttributes(start, end);
 
-                template.addTable(attributes);
 
                 tableFactory.initialize(start, end);
-                Table table = tableFactory.makeTable();
+                int location = 1;
+                if (tableFactory.getNumLocations() > 1) {
+                    System.out.println(start + " was found " + tableFactory.getNumLocations() + " times, which instance do you want.");
+                    location = Integer.parseInt(scan.nextLine().trim());
+                }
+                attributes.setOccurrence(location);
+                template.addTable(attributes);
+
+                Table table = tableFactory.makeTable(location);
                 tables.put(table.hashCode(), table);
                 attString = scan.nextLine();
             }

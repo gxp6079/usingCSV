@@ -1,10 +1,6 @@
 package com.company;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.*;
-
-import static java.util.Collections.min;
 
 public class Table {
     private List<List<String>> table;

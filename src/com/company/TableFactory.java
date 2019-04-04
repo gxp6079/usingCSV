@@ -45,6 +45,8 @@ public class TableFactory {
      */
     private String end;
 
+    private List<Integer[]> locations;
+
 
     public TableFactory(List<String[]> list) {
         this.tableRow = new ArrayList<>();
@@ -65,6 +67,7 @@ public class TableFactory {
         this.col = 0;
         this.start = start;
         this.end = end;
+        this.locations = getLocation(start);
     }
 
     public List<Integer[]> getLocation(String start){
@@ -89,8 +92,12 @@ public class TableFactory {
         return locations;
     }
 
+    public int getNumLocations() {
+        return this.locations.size();
+    }
 
-    public Table makeTable() {
+
+    public Table makeTable(int location) {
 
         boolean finishedHead = false;
 
@@ -100,11 +107,11 @@ public class TableFactory {
                 System.out.println("Start not found");
             }
             else{
-                System.out.println(start + "was found " +Integer.toString(locations.size()) + " times, please enter which #n");
-                Scanner scan = new Scanner(System.in);
-                int n = Integer.valueOf(scan.nextLine());
-                this.row = locations.get(n - 1)[0];
-                this.leftCol = locations.get(n - 1)[1];
+                // System.out.println(start + "was found " +Integer.toString(locations.size()) + " times, please enter which #n");
+                // Scanner scan = new Scanner(System.in);
+                // int n = Integer.valueOf(scan.nextLine());
+                this.row = locations.get(location - 1)[0];
+                this.leftCol = locations.get(location - 1)[1];
             }
         }
         else{
