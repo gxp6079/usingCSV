@@ -251,8 +251,7 @@ public class TableFactory {
             if (!val.equals("")) {
                 Header header = new Header(this.row, this.col, val);
                 table.addHeader(header);
-                this.tableRow.add(val);
-
+                if (!val.contains("...")) this.tableRow.add(val);
                 dataIndexes.add(col);
             }
         }
