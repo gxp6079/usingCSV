@@ -62,10 +62,10 @@ public class Table {
         header = header.trim().toLowerCase();
         int col = 0;
         for (int i : headerList.keySet()) {
-            if (headerList.get(i).getValue().equals(header)) break;
+            if (headerList.get(i).getValue().contains(header)) break;
             else if (headerList.get(i).hasChildren()) {
                 for (Header h : headerList.get(i).getChildren()) {
-                    if (h.getValue().equals(header)){
+                    if (h.getValue().contains(header)){
                         found = true;
                         break;
                     }
@@ -82,7 +82,7 @@ public class Table {
 
         if (!found){
             for (List<String> row : table){
-                if(row.get(0).equals(header)){
+                if(row.get(0).contains(header)){
                     return row.subList(1, row.size());
                 }
             }

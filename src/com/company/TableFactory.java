@@ -105,6 +105,7 @@ public class TableFactory {
         if(locations.size() != 1){
             if(locations.size() == 0){
                 System.out.println("Start not found");
+                return new Table(start, end);
             }
             else{
                 this.row = locations.get(location - 1)[0];
@@ -138,6 +139,10 @@ public class TableFactory {
                 col = 0;
                 tableRow.clear();
                 this.row++;
+                if (row >= list.size()) {
+                    System.out.println("End no found");
+                    return new Table(start, end);
+                }
             } else {
                 col++;
             }
