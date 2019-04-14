@@ -3,13 +3,22 @@ package com.company;
 import com.opencsv.CSVReader;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.*;
 
 public class TemplateReader {
 
 
     public static void readTemplate(String filename, String templateName) {
-        Template template = readTemplate(templateName);
+        Template template = null;
+        //try {
+        //    template = readFromDB(templateName);
+        //} catch (SQLException e) {
+        //    e.printStackTrace();
+        //} catch (IOException e) {
+        //    e.printStackTrace();
+        //}
         List<String[]> list = readAllLines(filename);
         if (template != null) {
             Map<Integer, Table> tables = new HashMap<>();
@@ -85,7 +94,13 @@ public class TemplateReader {
                 template.addField(new Field(fieldName, idTarget, header));
             }
 
-            template.save();
+            try {
+                template.saveDB();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
     }
@@ -102,6 +117,17 @@ public class TemplateReader {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private static Template readFromDB(String type) throws SQLException, IOException {
+        Connection connection = DataBaseConnection.makeConnection();
+        try {
+            return (Template) DataBaseConnection.deSerializeJavaObjectFromDB(
+                    connection, type);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

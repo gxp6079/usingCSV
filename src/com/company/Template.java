@@ -1,10 +1,10 @@
 package com.company;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.*;
+import java.sql.Connection;
 
 public class Template implements Serializable {
     private List<TableAttributes> tables;
@@ -37,6 +37,8 @@ public class Template implements Serializable {
         return tables;
     }
 
+    public String getType(){return this.type;}
+
     public void save() {
         String filename = this.type + ".ser";
         try {
@@ -50,6 +52,16 @@ public class Template implements Serializable {
             e.printStackTrace();
             return;
         }
+    }
+
+    public void saveDB() throws SQLException, IOException {
+
+        Connection connection = DataBaseConnection.makeConnection();
+
+        // serializing java object to mysql database
+        DataBaseConnection.serializeJavaObjectToDB(connection, this);
+
+        connection.close();
     }
 
 }
