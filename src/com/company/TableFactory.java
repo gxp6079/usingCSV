@@ -134,7 +134,7 @@ public class TableFactory {
             }
 
             if(col == list.get(row).length - 1) {
-                if(!list.get(row)[leftCol].equals("")) table.addRow(tableRow);
+                if(!list.get(row)[leftCol].equals("") && !tableRow.get(0).contains("...")) table.addRow(tableRow);
                 col = 0;
                 tableRow.clear();
                 this.row++;
