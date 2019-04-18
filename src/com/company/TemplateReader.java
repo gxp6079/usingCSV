@@ -12,13 +12,13 @@ public class TemplateReader {
 
     public static void readTemplate(String filename, String templateName) {
         Template template = null;
-        //try {
-        //    template = readFromDB(templateName);
-        //} catch (SQLException e) {
-        //    e.printStackTrace();
-        //} catch (IOException e) {
-        //    e.printStackTrace();
-        //}
+        try {
+            template = readFromDB(templateName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         List<String[]> list = readAllLines(filename);
         if (template != null) {
             Map<Integer, Table> tables = new HashMap<>();
