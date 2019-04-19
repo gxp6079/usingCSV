@@ -12,8 +12,8 @@ import java.util.Vector;
 
 public abstract class DataBaseConnection {
 
-    private static final String SQL_SERIALIZE_OBJECT = "INSERT INTO Template(template_type, tempObject) VALUES (?, ?)";
-    private static final String SQL_DESERIALIZE_OBJECT = "SELECT tempObject FROM Template WHERE template_type = ?";
+    private static final String SQL_SERIALIZE_OBJECT = "INSERT INTO TEMPLATES(template_type, template_object) VALUES (?, ?)";
+    private static final String SQL_DESERIALIZE_OBJECT = "SELECT IF template_object EXISTS FROM TEMPLATES WHERE template_type = ?";
 
     public static long serializeJavaObjectToDB(Connection connection,
                                                Template objectToSerialize) throws SQLException {
@@ -75,7 +75,7 @@ public abstract class DataBaseConnection {
         Connection connection = null;
 
         String driver = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://localhost,3306/TemplateObjects?serverTimezone=EST";
+        String url = "jdbc:mysql://localhost/PDFreader?serverTimezone=EST";
         String username = "brit";
         String password = "x0EspnYA8JaqCPT9";
         try {
