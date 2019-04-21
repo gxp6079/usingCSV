@@ -13,7 +13,8 @@ import java.util.Vector;
 public abstract class DataBaseConnection {
 
     private static final String SQL_SERIALIZE_OBJECT = "INSERT INTO TEMPLATES(template_type, template_object) VALUES (?, ?)";
-    private static final String SQL_DESERIALIZE_OBJECT = "SELECT IF template_object EXISTS FROM TEMPLATES WHERE template_type = ?";
+    private static final String SQL_DESERIALIZE_OBJECT = "SELECT template_object FROM TEMPLATES WHERE template_type = ?";
+    private static final String SQL_OBJECT_EXISTS = "SELECT EXISTS (SELECT template_object FROM TEMPLATES WHERE template_type = ?) ";
 
     public static long serializeJavaObjectToDB(Connection connection,
                                                Template objectToSerialize) throws SQLException {
@@ -48,7 +49,7 @@ public abstract class DataBaseConnection {
                                                      String type) throws SQLException, IOException,
             ClassNotFoundException {
         PreparedStatement pstmt = connection
-                .prepareStatement(SQL_DESERIALIZE_OBJECT);
+                .prepareStatement(SQL_OBJECT_EXISTS);
         pstmt.setString(1, type);
         ResultSet rs = pstmt.executeQuery();
         rs.next();
@@ -57,17 +58,24 @@ public abstract class DataBaseConnection {
 
         byte[] buf = rs.getBytes(1);
         ObjectInputStream objectIn = null;
-        if (buf != null)
-            objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
+        Object deSerializedObject = null;
+        if (buf[0] == 49) {
+            pstmt = connection
+                    .prepareStatement(SQL_DESERIALIZE_OBJECT);
+            pstmt.setString(1, type);
+            rs = pstmt.executeQuery();
+            rs.next();
 
-        Object deSerializedObject = objectIn.readObject();
+            // Object object = rs.getObject(1);
+
+            buf = rs.getBytes(1);
+            objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
+            deSerializedObject = objectIn.readObject();
+        }
 
         rs.close();
         pstmt.close();
 
-        System.out.println("Java object de-serialized from database. Object: "
-                + deSerializedObject + " Classname: "
-                + deSerializedObject.getClass().getName());
         return deSerializedObject;
     }
 

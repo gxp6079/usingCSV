@@ -1,5 +1,10 @@
 package com.company;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Scanner;
 
 import java.sql.*;
@@ -17,8 +22,12 @@ public class Main {
     // Ex2.csv "Ativos" "Rentabilidade" 2
 
     public static void main(String[] args) {
-        get("/PDFreader", new Route() {
-            public Object handle(Request request, Response response) {
+
+
+                get("/PDFreader", new Route() {
+            public Object handle(Request request, Response response) throws IOException {
+                System.out.println("Host: " + request.host());
+                System.out.println("IP: " + request.ip());
                 return run_with_csv();
                 // return null;
             }
@@ -39,9 +48,24 @@ public class Main {
         e.printStackTrace();
     }
     }
-    public static int run_with_csv() {
+    public static int run_with_csv() throws IOException {
+//        URL requestURL = null;
+//        HttpURLConnection connection = null;
+//        connection.setDoOutput(true);
+//        OutputStream outputStream = null;
+//        try {
+//            requestURL = new URL("http://localhost:4567/PDFreader");
+//            connection = (HttpURLConnection) requestURL.openConnection();
+//            outputStream = connection.getOutputStream();
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
         Scanner scan = new Scanner(System.in);
         TemplateReader reader = new TemplateReader();
+        //outputStream.write("Enter csv file name:".getBytes());
         System.out.println("Enter csv file name:");
         String filename = scan.nextLine();
         System.out.println("Enter the template type:");
