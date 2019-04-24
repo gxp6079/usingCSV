@@ -83,7 +83,7 @@ public abstract class DataBaseConnection {
         Connection connection = null;
 
         String driver = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://localhost/PDFreader?serverTimezone=EST";
+        String url = "jdbc:mysql://129.21.117.231/PDFreader?serverTimezone=EST";
         String username = "brit";
         String password = "x0EspnYA8JaqCPT9";
         try {

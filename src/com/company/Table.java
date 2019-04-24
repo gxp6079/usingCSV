@@ -72,7 +72,7 @@ public class Table {
                     col++;
                 }
             } else {
-                if (headerList.get(i).getValue().equals(header)){
+                if (headerList.get(i).getValue().contains(header)){
                     found = true;
                     break;
                 }
@@ -83,7 +83,7 @@ public class Table {
         if (!found){
             for (List<String> row : table){
                 if(row.get(0).contains(header)){
-                    return row.subList(1, row.size());
+                    return row.subList(0, row.size());
                 }
             }
         }

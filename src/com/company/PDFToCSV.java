@@ -47,7 +47,7 @@ public class PDFToCSV {
                 return null;
             }
         });
-        String databaseUrl = "jdbc:mysql://localhost/PDFreader?serverTimezone=EST";
+        String databaseUrl = "jdbc:mysql://129.21.117.231/PDFreader?serverTimezone=EST";
 
         try {
             Connection connectionSource = DriverManager.getConnection(databaseUrl, "brit", "x0EspnYA8JaqCPT9");
