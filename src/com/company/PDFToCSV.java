@@ -1,5 +1,6 @@
 package com.company;
 
+import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.CookieSpecs;
@@ -10,9 +11,19 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import spark.Request;
+import spark.Response;
+import spark.Route;
 
-import java.io.File;
+import javax.servlet.ServletOutputStream;
+import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
+
+import static spark.Spark.get;
 
 public class PDFToCSV {
 
@@ -20,19 +31,53 @@ public class PDFToCSV {
     private static final String FORMAT = "csv";
 
     public static void main(String[] args) {
+
+        Gson gson = new Gson();
+        get("/PDFreader", new Route() {
+            public Object handle(Request request, Response response) throws IOException {
+                run_with_pdf(response.raw().getOutputStream());
+                return 1;
+            }
+
+        });
+        get("/postFile", new Route() {
+            @Override
+            public Object handle(Request request, Response response) throws Exception {
+                request.body();
+                return null;
+            }
+        });
+        String databaseUrl = "jdbc:mysql://localhost/PDFreader?serverTimezone=EST";
+
+        try {
+            Connection connectionSource = DriverManager.getConnection(databaseUrl, "brit", "x0EspnYA8JaqCPT9");
+            Statement s = connectionSource.createStatement();
+            //int Result=s.executeUpdate("CREATE DATABASE PDFreader");
+            String table = "CREATE TABLE IF NOT EXISTS `TEMPLATES` (\n" +
+                    "`template_type` varchar(50) NOT NULL,\n" +
+                    "`template_object` blob,\n" +
+                    "PRIMARY KEY (`template_type`)\n" +
+                    ")";
+            int Result=s.executeUpdate(table);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void run_with_pdf(ServletOutputStream out) throws IOException {
         Scanner scan = new Scanner(System.in);
         TemplateReader reader = new TemplateReader();
-        System.out.println("Enter pdf file name:");
+        out.println("Enter pdf file name:");
         String filename = scan.nextLine().trim();
-        System.out.println("Enter the template type:");
+        out.println("Enter the template type:");
         String templateName = scan.nextLine().trim();
 
         while (!convertToCSV(filename)) {
-            System.out.println("Convert failed, enter new filename: ");
+            out.println("Convert failed, enter new filename: ");
             filename = scan.nextLine().trim();
         }
 
-        reader.readTemplate(getOutputFilename(filename, "csv"), templateName);
+        reader.readTemplate(getOutputFilename(filename, "csv"), templateName, out);
     }
 
 

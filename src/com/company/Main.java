@@ -1,7 +1,10 @@
 package com.company;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.lang.management.GarbageCollectorMXBean;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -9,11 +12,16 @@ import java.util.Scanner;
 
 import java.sql.*;
 import static spark.Spark.get;
+import static spark.Spark.port;
+import static spark.Spark.post;
 
+import com.google.gson.Gson;
 import com.mysql.cj.jdbc.ConnectionImpl;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+
+import javax.servlet.ServletOutputStream;
 
 public class Main {
 
@@ -23,13 +31,19 @@ public class Main {
 
     public static void main(String[] args) {
 
-
-                get("/PDFreader", new Route() {
+        Gson gson = new Gson();
+        get("/PDFreader", new Route() {
             public Object handle(Request request, Response response) throws IOException {
-                System.out.println("Host: " + request.host());
-                System.out.println("IP: " + request.ip());
-                return run_with_csv();
-                // return null;
+                run_with_csv(response.raw().getOutputStream());
+                return 1;
+            }
+
+        });
+        get("/postFile", new Route() {
+            @Override
+            public Object handle(Request request, Response response) throws Exception {
+                request.body();
+                return null;
             }
         });
         String databaseUrl = "jdbc:mysql://localhost/PDFreader?serverTimezone=EST";
@@ -48,31 +62,21 @@ public class Main {
         e.printStackTrace();
     }
     }
-    public static int run_with_csv() throws IOException {
-//        URL requestURL = null;
-//        HttpURLConnection connection = null;
-//        connection.setDoOutput(true);
-//        OutputStream outputStream = null;
-//        try {
-//            requestURL = new URL("http://localhost:4567/PDFreader");
-//            connection = (HttpURLConnection) requestURL.openConnection();
-//            outputStream = connection.getOutputStream();
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
+    public static int run_with_csv(ServletOutputStream out) throws IOException {
         Scanner scan = new Scanner(System.in);
         TemplateReader reader = new TemplateReader();
         //outputStream.write("Enter csv file name:".getBytes());
-        System.out.println("Enter csv file name:");
+        out.println("Enter csv file name:");
+        out.flush();
         String filename = scan.nextLine();
-        System.out.println("Enter the template type:");
+        out.println("Enter the template type:");
+        out.flush();
         String templateName = scan.nextLine();
-        reader.readTemplate(filename, templateName);
+        reader.readTemplate(filename, templateName, out);
+        out.flush();
         return 1;
     }
+
 
 
 }

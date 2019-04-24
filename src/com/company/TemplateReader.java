@@ -2,7 +2,9 @@ package com.company;
 
 import com.opencsv.CSVReader;
 
+import javax.servlet.ServletOutputStream;
 import java.io.*;
+import java.rmi.server.ServerCloneException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
@@ -10,7 +12,7 @@ import java.util.*;
 public class TemplateReader {
 
 
-    public static void readTemplate(String filename, String templateName) {
+    public static void readTemplate(String filename, String templateName, ServletOutputStream out) throws IOException {
         Template template = null;
         try {
             template = readFromDB(templateName);
@@ -38,7 +40,7 @@ public class TemplateReader {
             for (Field field : template.getFields().values()) {
                 List<String> value = field.getValue(tables.get(field.TABLE_ID));
                 values.put(field.NAME, value);
-                System.out.println(value);
+                out.println(String.valueOf(value));
             }
 
 
@@ -57,7 +59,7 @@ public class TemplateReader {
             TableFactory tableFactory = new TableFactory(list);
 
             TableAttributes attributes;
-            System.out.println("Enter the start and end to tables that you would like");
+            out.println("Enter the start and end to tables that you would like");
             String attString = scan.nextLine();
             while(!attString.equals("")){
                 String[] allAtributes = attString.split(",");
@@ -69,7 +71,7 @@ public class TemplateReader {
                 tableFactory.initialize(start, end);
                 int location = 1;
                 if (tableFactory.getNumLocations() > 1) {
-                    System.out.println(start + " was found " + tableFactory.getNumLocations() + " times, which instance do you want.");
+                    out.println(start + " was found " + tableFactory.getNumLocations() + " times, which instance do you want.");
                     location = Integer.parseInt(scan.nextLine().trim());
                 }
                 attributes.setOccurrence(location);
@@ -81,13 +83,13 @@ public class TemplateReader {
             }
 
             for(Integer id : tables.keySet()){
-                System.out.println(id);
-                System.out.println(tables.get(id));
-                System.out.println("\n");
+                out.println(id);
+                out.println(String.valueOf(tables.get(id)));
+                out.println("\n");
             }
 
             for(String fieldName : template.getFields().keySet()){
-                System.out.println("Input the location of " + fieldName + "(format : id,header)");
+                out.println("Input the location of " + fieldName + "(format : id,header)");
                 String[] loc = scan.nextLine().split(",");
                 int idTarget = Integer.valueOf(loc[0]);
                 String header = loc[1];
