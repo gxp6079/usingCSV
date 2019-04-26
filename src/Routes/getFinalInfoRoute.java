@@ -7,6 +7,10 @@ import spark.Route;
 
 import java.util.logging.Logger;
 
+
+/**
+ * retrieves completed info, very last route called
+ */
 public class getFinalInfoRoute implements Route {
     private static final Logger LOG = Logger.getLogger(getFinalInfoRoute.class.getName());
 

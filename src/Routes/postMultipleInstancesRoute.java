@@ -7,6 +7,10 @@ import spark.Route;
 
 import java.util.logging.Logger;
 
+
+/**
+ * called to specify which instance of start/end the user wants to use
+ */
 public class postMultipleInstancesRoute implements Route {
     private static final Logger LOG = Logger.getLogger(postMultipleInstancesRoute.class.getName());
 

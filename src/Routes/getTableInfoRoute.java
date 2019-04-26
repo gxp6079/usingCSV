@@ -7,6 +7,13 @@ import spark.Route;
 
 import java.util.logging.Logger;
 
+
+/**
+ * redirected to from postTemplateRoute when template name given is not found in database
+ * prompts the user to give start and end keys for the tables
+ *
+ * @pre template not in database
+ */
 public class getTableInfoRoute implements Route {
     private static final Logger LOG = Logger.getLogger(getTableInfoRoute.class.getName());
 

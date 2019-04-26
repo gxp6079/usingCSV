@@ -7,6 +7,9 @@ import spark.Route;
 
 import java.util.logging.Logger;
 
+/**
+ * prompts the user to give start and end keys for each of the tables
+ */
 public class getStartEndRoute implements Route {
     private static final Logger LOG = Logger.getLogger(getStartEndRoute.class.getName());
 

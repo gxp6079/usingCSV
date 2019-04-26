@@ -8,6 +8,12 @@ import spark.Route;
 
 import java.util.logging.Logger;
 
+/**
+ * gets a template and extracts data from pdf when a template has been
+ * found in the database
+ *
+ * @pre template is in database
+ */
 public class getTemplateRoute implements Route {
     private static final Logger LOG = Logger.getLogger(getTemplateRoute.class.getName());
 
