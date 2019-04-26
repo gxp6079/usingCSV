@@ -1,11 +1,21 @@
 package Routes;
 
+import Application.ClientHandler;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.logging.Logger;
+
 public class postTableInfoRoute implements Route {
-    public postTableInfoRoute() {
+    private static final Logger LOG = Logger.getLogger(WebServer.class.getName());
+
+    private ClientHandler clientHandler;
+
+    public postTableInfoRoute(ClientHandler clientHandler) {
+        this.clientHandler = clientHandler;
+
+        LOG.finer("postTableInfoRoute initialized");
     }
 
     @Override

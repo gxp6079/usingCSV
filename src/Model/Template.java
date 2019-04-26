@@ -1,7 +1,6 @@
-package com.company;
+package Model;
 
 import java.io.*;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.*;
 import java.sql.Connection;

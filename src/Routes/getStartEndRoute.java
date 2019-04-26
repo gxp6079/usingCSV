@@ -1,12 +1,21 @@
 package Routes;
 
+import Application.ClientHandler;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
-public class getStartEndRoute implements Route {
+import java.util.logging.Logger;
 
-    public getStartEndRoute() {
+public class getStartEndRoute implements Route {
+    private static final Logger LOG = Logger.getLogger(getStartEndRoute.class.getName());
+
+    private ClientHandler clientHandler;
+
+    public getStartEndRoute(ClientHandler clientHandler) {
+        this.clientHandler = clientHandler;
+
+        LOG.finer("getStartEndRoute initialized");
     }
 
     @Override

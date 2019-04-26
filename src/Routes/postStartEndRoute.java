@@ -1,12 +1,21 @@
 package Routes;
 
+import Application.ClientHandler;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
-public class postStartEndRoute implements Route {
+import java.util.logging.Logger;
 
-    public postStartEndRoute() {
+public class postStartEndRoute implements Route {
+    private static final Logger LOG = Logger.getLogger(postStartEndRoute.class.getName());
+
+    private ClientHandler clientHandler;
+
+    public postStartEndRoute(ClientHandler clientHandler) {
+        this.clientHandler = clientHandler;
+
+        LOG.finer("postStartEndRoute initialized");
     }
 
     @Override

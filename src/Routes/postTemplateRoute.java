@@ -1,12 +1,21 @@
 package Routes;
 
+import Application.ClientHandler;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
-public class postTemplateRoute implements Route {
+import java.util.logging.Logger;
 
-    public postTemplateRoute() {
+public class postTemplateRoute implements Route {
+    private static final Logger LOG = Logger.getLogger(postTemplateRoute.class.getName());
+
+    private ClientHandler clientHandler;
+
+    public postTemplateRoute(ClientHandler clientHandler) {
+        this.clientHandler = clientHandler;
+
+        LOG.finer("postTemplateRoute initialized");
     }
 
     @Override

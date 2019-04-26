@@ -1,12 +1,21 @@
 package Routes;
 
+import Application.ClientHandler;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
-public class postMultipleInstancesRoute implements Route {
+import java.util.logging.Logger;
 
-    public postMultipleInstancesRoute() {
+public class postMultipleInstancesRoute implements Route {
+    private static final Logger LOG = Logger.getLogger(postMultipleInstancesRoute.class.getName());
+
+    private ClientHandler clientHandler;
+
+    public postMultipleInstancesRoute(ClientHandler clientHandler) {
+        this.clientHandler = clientHandler;
+
+        LOG.finer("postMultipleInstancesRoute initialized");
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.company;
+package Model;
 
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
