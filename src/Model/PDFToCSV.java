@@ -49,19 +49,19 @@ public class PDFToCSV {
         });
         String databaseUrl = "jdbc:mysql://129.21.117.231/PDFreader?serverTimezone=EST";
 
-        try {
-            Connection connectionSource = DriverManager.getConnection(databaseUrl, "brit", "x0EspnYA8JaqCPT9");
-            Statement s = connectionSource.createStatement();
-            //int Result=s.executeUpdate("CREATE DATABASE PDFreader");
-            String table = "CREATE TABLE IF NOT EXISTS `TEMPLATES` (\n" +
-                    "`template_type` varchar(50) NOT NULL,\n" +
-                    "`template_object` blob,\n" +
-                    "PRIMARY KEY (`template_type`)\n" +
-                    ")";
-            int Result=s.executeUpdate(table);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Connection connectionSource = DriverManager.getConnection(databaseUrl, "brit", "x0EspnYA8JaqCPT9");
+//            Statement s = connectionSource.createStatement();
+//            //int Result=s.executeUpdate("CREATE DATABASE PDFreader");
+//            String table = "CREATE TABLE IF NOT EXISTS `TEMPLATES` (\n" +
+//                    "`template_type` varchar(50) NOT NULL,\n" +
+//                    "`template_object` blob,\n" +
+//                    "PRIMARY KEY (`template_type`)\n" +
+//                    ")";
+//            int Result=s.executeUpdate(table);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public static void run_with_pdf(ServletOutputStream out) throws IOException {

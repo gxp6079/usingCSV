@@ -8,7 +8,11 @@ import java.sql.Connection;
 public class Template implements Serializable {
     private List<TableAttributes> tables;
     private HashMap<String, Field> fields;
-    private final String type;
+    private String type;
+
+    public Template() {
+        this(null);
+    }
 
     public Template(String type) {
         this.tables = new ArrayList<>();
@@ -18,6 +22,14 @@ public class Template implements Serializable {
         fields.put("Conta", null);
         fields.put("Descricao", null);
         fields.put("Valor Bruto", null);
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public boolean isEmpty() {
+        return this.type == null;
     }
 
     public void addTable(TableAttributes tableAttributes) {

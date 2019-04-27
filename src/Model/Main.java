@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import java.sql.*;
 import static spark.Spark.get;
+import static spark.Spark.post;
 
 import com.google.gson.Gson;
 import spark.Request;
@@ -27,8 +28,13 @@ public class Main {
     public static void main(String[] args) {
 
         Gson gson = new Gson();
-        get("/PDFreader", new Route() {
+        post("/PDFreader", new Route() {
             public Object handle(Request request, Response response) throws IOException {
+                request.session().attribute("hi", "you");
+                String thing = request.queryParams("hello");
+                System.out.println(request.queryParams().size());
+                System.out.println((String) request.session().attribute("hi"));
+                System.out.println(thing);
                 run_with_csv(response.raw().getOutputStream(), request.raw().getInputStream());
                 return 1;
             }

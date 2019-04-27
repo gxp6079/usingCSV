@@ -3,7 +3,6 @@ package Routes;
 
 import Application.ClientHandler;
 
-import java.util.Objects;
 import java.util.logging.Logger;
 
 import static spark.Spark.get;

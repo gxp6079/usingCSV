@@ -26,6 +26,16 @@ public class postStartEndRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
+        String start = request.queryParams("start");
+        String end = request.queryParams("end");
+
+        //TODO look for start and end in csv file
+        // if two instances found
+        //      redirect to getMultipleInstancesRoute
+        // else
+        //      put Trable Attibutes in template
+
+
         return null;
     }
 }

@@ -10,7 +10,8 @@ import java.util.logging.Logger;
 
 /**
  * first route called
- * @pre provide pdf file and name of template
+ *
+ * provide pdf file and name of template
  * @redirect getTemplateRoute if the template name is found in the database
  * @redirect getTableInfoRoute if the template name is not found
  */
@@ -27,6 +28,11 @@ public class postTemplateRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
+        String filename = request.queryParams("fileName");
+        String templateType = request.queryParams("type");
+
+
+
         return null;
     }
 }
