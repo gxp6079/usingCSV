@@ -37,6 +37,26 @@ public abstract class DataBaseConnection {
         return 1;
     }
 
+
+    public static Boolean checkItObjExists(Connection connection, String type) throws SQLException {
+        PreparedStatement pstmt = connection
+                .prepareStatement(SQL_OBJECT_EXISTS);
+        pstmt.setString(1, type);
+        ResultSet rs = pstmt.executeQuery();
+        rs.next();
+
+        byte[] buf = rs.getBytes(1);
+
+        rs.close();
+        pstmt.close();
+
+        if (buf[0] == 49) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * To de-serialize a java object from database
      *
@@ -47,18 +67,11 @@ public abstract class DataBaseConnection {
     public static Object deSerializeJavaObjectFromDB(Connection connection,
                                                      String type) throws SQLException, IOException,
             ClassNotFoundException {
-        PreparedStatement pstmt = connection
-                .prepareStatement(SQL_OBJECT_EXISTS);
-        pstmt.setString(1, type);
-        ResultSet rs = pstmt.executeQuery();
-        rs.next();
-
-        // Object object = rs.getObject(1);
-
-        byte[] buf = rs.getBytes(1);
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
         ObjectInputStream objectIn = null;
         Object deSerializedObject = null;
-        if (buf[0] == 49) {
+        if (checkItObjExists(connection, type)) {
             pstmt = connection
                     .prepareStatement(SQL_DESERIALIZE_OBJECT);
             pstmt.setString(1, type);
@@ -67,7 +80,7 @@ public abstract class DataBaseConnection {
 
             // Object object = rs.getObject(1);
 
-            buf = rs.getBytes(1);
+            byte[] buf = rs.getBytes(1);
             objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
             deSerializedObject = objectIn.readObject();
         }

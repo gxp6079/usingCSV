@@ -3,6 +3,7 @@ package Model;
 import com.opencsv.CSVReader;
 
 import javax.servlet.ServletOutputStream;
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,8 +11,12 @@ import java.util.*;
 
 public class TemplateReader {
 
+    public static Boolean checkIfExists(String templateName) throws SQLException {
+        Connection connection = DataBaseConnection.makeConnection();
+        return DataBaseConnection.checkItObjExists(connection, templateName);
+    }
 
-    public static void readTemplate(String filename, String templateName, ServletOutputStream out) throws IOException {
+    public static void readExistingTemplate(String filename, String templateName, ServletOutputStream out) throws IOException {
         Template template = null;
         try {
             template = readFromDB(templateName);
@@ -21,106 +26,64 @@ public class TemplateReader {
             e.printStackTrace();
         }
         List<String[]> list = readAllLines(filename);
-        if (template != null) {
-            Map<Integer, Table> tables = new HashMap<>();
 
-            TableFactory tableFactory = new TableFactory(list);
-            for (TableAttributes ta : template.getTables()) {
-                tableFactory.initialize(ta.START, ta.END);
-                Table table = tableFactory.makeTable(ta.getOccurrence());
-                if (table != null) tables.put(table.hashCode(), table);
-            }
+        Map<Integer, Table> tables = new HashMap<>();
 
-            /**
-             * name of field to value
-             */
-            Map<String, List<String>> values = new HashMap<>();
+        TableFactory tableFactory = new TableFactory(list);
+        for (TableAttributes ta : template.getTables()) {
+            tableFactory.initialize(ta.START, ta.END);
+            Table table = tableFactory.makeTable(ta.getOccurrence());
+            if (table != null) tables.put(table.hashCode(), table);
+        }
 
-            for (Field field : template.getFields().values()) {
-                List<String> value = field.getValue(tables.get(field.TABLE_ID));
-                values.put(field.NAME, value);
-                out.println(String.valueOf(value));
-            }
+        /**
+         * name of field to value
+         */
+        Map<String, List<String>> values = new HashMap<>();
 
+        for (Field field : template.getFields().values()) {
+            List<String> value = field.getValue(tables.get(field.TABLE_ID));
+            values.put(field.NAME, value);
+            out.println(String.valueOf(value));
+        }
 
+    }
 
+    public static void getTables(Template template, TableFactory tableFactory, ServletOutputStream out) throws IOException {
 
-            // make list of tables
-            // read tables from template
-            // create tables based off start and end from template
-            //
-            // create list for requested data
-            // call each field in the template for what data is can give us with the correct tables
-        } else {
-            Scanner scan = new Scanner(System.in);
-            template = new Template(templateName);
-            Map<Integer, Table> tables = new HashMap<>();
-            TableFactory tableFactory = new TableFactory(list);
+        HashMap<Integer, Table> tables = new HashMap<>();
 
-            TableAttributes attributes;
-            out.println("Enter the start and end to tables that you would like");
-            String attString = scan.nextLine();
-            while(!attString.equals("")){
-                String[] allAtributes = attString.split(",");
-                String start = allAtributes[0];
-                String end = allAtributes[1];
-                attributes = new TableAttributes(start, end);
+        for(TableAttributes attributes : template.getTables()){
+            tableFactory.initialize(attributes.START, attributes.END);
+            Table table = tableFactory.makeTable(attributes.getOccurrence());
+            tables.put(table.hashCode(), table);
+        }
 
-
-                tableFactory.initialize(start, end);
-                int location = 1;
-                if (tableFactory.getNumLocations() > 1) {
-                    out.println(start + " was found " + tableFactory.getNumLocations() + " times, which instance do you want.");
-                    location = Integer.parseInt(scan.nextLine().trim());
-                }
-                attributes.setOccurrence(location);
-                template.addTable(attributes);
-
-                Table table = tableFactory.makeTable(location);
-                tables.put(table.hashCode(), table);
-                attString = scan.nextLine();
-            }
-
-            for(Integer id : tables.keySet()){
-                out.println(id);
-                out.println(String.valueOf(tables.get(id)));
-                out.println("\n");
-            }
-
-            for(String fieldName : template.getFields().keySet()){
-                out.println("Input the location of " + fieldName + "(format : id,header)");
-                String[] loc = scan.nextLine().split(",");
-                int idTarget = Integer.valueOf(loc[0]);
-                String header = loc[1];
-                template.addField(new Field(fieldName, idTarget, header));
-            }
-
-            try {
-                template.saveDB();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+        for(Integer id : tables.keySet()){
+            out.println(id);
+            out.println(String.valueOf(tables.get(id)));
+            out.println("\n");
         }
     }
 
+    public static void createTable(Template template, String start, String end, int instance){
 
-    private static Template readTemplate(String type) {
-        try {
-            FileInputStream fis = new FileInputStream(new File(type + ".ser"));
-            ObjectInputStream ois = new ObjectInputStream(fis);
+        TableAttributes attributes = new TableAttributes(start, end);
+        attributes.setOccurrence(instance);
+        template.addTable(attributes);
 
-            Template temp = (Template) ois.readObject();
-
-            return temp;
-        } catch (Exception e) {
-            return null;
-        }
     }
 
-    private static Template readFromDB(String type) throws SQLException, IOException {
+    public static Template createNewTemplate(String filename, String templateName, ServletOutputStream out) throws IOException {
+
+        Template template = new Template(templateName);
+        return template;
+    }
+
+
+
+
+    public static Template readFromDB(String type) throws SQLException, IOException {
         Connection connection = DataBaseConnection.makeConnection();
         try {
             return (Template) DataBaseConnection.deSerializeJavaObjectFromDB(
@@ -132,7 +95,7 @@ public class TemplateReader {
     }
 
 
-    private static List<String[]> readAllLines(String filename) {
+    public static List<String[]> readAllLines(String filename) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
             CSVReader csvReader = new CSVReader(reader);
