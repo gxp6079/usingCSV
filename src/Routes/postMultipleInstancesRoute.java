@@ -1,6 +1,9 @@
 package Routes;
 
 import Application.ClientHandler;
+import Model.TableAttributes;
+import Model.Template;
+import Model.TemplateReader;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -24,6 +27,15 @@ public class postMultipleInstancesRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
+        int instance = Integer.parseInt(request.queryParams("num"));
+
+        TableAttributes tableAttributes = request.session().attribute("currentAttributes");
+
+        Template currentTemplate = request.session().attribute("template");
+
+        TemplateReader.createTable(currentTemplate, tableAttributes.START, tableAttributes.END, instance);
+
+        request.session().removeAttribute("currentAttributes");
         return null;
     }
 }

@@ -77,7 +77,7 @@ public class PDFToCSV {
             filename = scan.nextLine().trim();
         }
 
-        reader.readTemplate(getOutputFilename(filename, "csv"), templateName, out);
+        //reader.readTemplate(getOutputFilename(filename, "csv"), templateName, out);
     }
 
 

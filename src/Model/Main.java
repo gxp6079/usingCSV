@@ -76,7 +76,7 @@ public class Main {
         out.println("Enter the template type:");
         out.flush();
         String templateName = input.readLine();
-        reader.readTemplate(filename, templateName, out);
+        //reader.readTemplate(filename, templateName, out);
         out.flush();
         return 1;
     }

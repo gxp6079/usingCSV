@@ -74,14 +74,6 @@ public class TemplateReader {
 
     }
 
-    public static Template createNewTemplate(String filename, String templateName, ServletOutputStream out) throws IOException {
-
-        Template template = new Template(templateName);
-        return template;
-    }
-
-
-
 
     public static Template readFromDB(String type) throws SQLException, IOException {
         Connection connection = DataBaseConnection.makeConnection();

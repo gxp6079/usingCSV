@@ -8,6 +8,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import javax.servlet.ServletOutputStream;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -35,13 +36,15 @@ public class postTemplateRoute implements Route {
         String filename = request.queryParams("fileName");
         String templateType = request.queryParams("type");
 
-        Template fromDatabase = TemplateReader.readFromDB(templateType);
+        ServletOutputStream out = response.raw().getOutputStream();
 
-        if (fromDatabase != null) {
-            request.session().attribute("template", fromDatabase);
-            response.redirect(WebServer.TEMPLATE_URL);
+        if (TemplateReader.checkIfExists(templateType)) {
+            TemplateReader.readExistingTemplate(filename, templateType, out);
             return null;
         }
+
+        Template currentTemplate = request.session().attribute("template");
+        currentTemplate.setType(templateType);
 
         List<String[]> lines = TemplateReader.readAllLines(filename);
 
