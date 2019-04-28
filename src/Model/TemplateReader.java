@@ -11,7 +11,7 @@ import java.util.*;
 
 public class TemplateReader {
 
-    public static Boolean checkIfExists(String templateName) throws SQLException {
+    public static boolean checkIfExists(String templateName) throws SQLException {
         Connection connection = DataBaseConnection.makeConnection();
         return DataBaseConnection.checkItObjExists(connection, templateName);
     }

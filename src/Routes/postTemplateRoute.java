@@ -1,10 +1,14 @@
 package Routes;
 
 import Application.ClientHandler;
+import Model.TableFactory;
+import Model.Template;
+import Model.TemplateReader;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -31,7 +35,17 @@ public class postTemplateRoute implements Route {
         String filename = request.queryParams("fileName");
         String templateType = request.queryParams("type");
 
+        Template fromDatabase = TemplateReader.readFromDB(templateType);
 
+        if (fromDatabase != null) {
+            request.session().attribute("template", fromDatabase);
+            response.redirect(WebServer.TEMPLATE_URL);
+            return null;
+        }
+
+        List<String[]> lines = TemplateReader.readAllLines(filename);
+
+        request.session().attribute("factory", new TableFactory(lines));
 
         return null;
     }

@@ -1,6 +1,8 @@
 package Routes;
 
 import Application.ClientHandler;
+import Model.TableAttributes;
+import Model.Template;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -29,11 +31,18 @@ public class postStartEndRoute implements Route {
         String start = request.queryParams("start");
         String end = request.queryParams("end");
 
+        // TODO call tableReader.makeTable(table factory, template, start, end, instance)
+
+        TableAttributes tableAttributes = new TableAttributes(start, end);
+
         //TODO look for start and end in csv file
         // if two instances found
         //      redirect to getMultipleInstancesRoute
         // else
-        //      put Trable Attibutes in template
+        //      put Table Attributes in template
+
+        Template current = request.session().attribute("template");
+        current.addTable(tableAttributes);
 
 
         return null;

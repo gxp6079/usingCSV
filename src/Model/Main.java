@@ -30,12 +30,14 @@ public class Main {
         Gson gson = new Gson();
         post("/PDFreader", new Route() {
             public Object handle(Request request, Response response) throws IOException {
+                System.out.println("request body: " + request.body());
                 request.session().attribute("hi", "you");
                 String thing = request.queryParams("hello");
                 System.out.println(request.queryParams().size());
                 System.out.println((String) request.session().attribute("hi"));
                 System.out.println(thing);
-                run_with_csv(response.raw().getOutputStream(), request.raw().getInputStream());
+                response.body("done");
+                //run_with_csv(response.raw().getOutputStream(), request.raw().getInputStream());
                 return 1;
             }
 

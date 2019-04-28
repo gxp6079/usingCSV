@@ -14,29 +14,40 @@ public class WebServer {
 
     private static final Logger LOG = Logger.getLogger(WebServer.class.getName());
 
+
+    public static final String TEMPLATE_URL = "/PDFreader";
+
+    public static final String TABLE_INFO_URL = "/tableInfo";
+
+    public static final String START_END_URL = "/startEnd";
+
+    public static final String MULTIPLE_INSTANCE_URL = "/multi";
+
+    public static final String FINAL_INFO = "/finalInfo";
+
     public WebServer() {
     }
 
     public void initialize() {
-        get("/PDFreader", new getTemplateRoute(clientHandler));
+        get(TEMPLATE_URL, new getTemplateRoute(clientHandler));
 
-        get("/finalInfo", new getFinalInfoRoute(clientHandler));
+        get(FINAL_INFO, new getFinalInfoRoute(clientHandler));
 
-        get("/multi", new getMultipleInstancesRoute(clientHandler));
+        get(MULTIPLE_INSTANCE_URL, new getMultipleInstancesRoute(clientHandler));
 
-        get("/startEnd", new getStartEndRoute(clientHandler));
+        get(START_END_URL, new getStartEndRoute(clientHandler));
 
-        get("/tableInfo", new getTableInfoRoute(clientHandler));
+        get(TABLE_INFO_URL, new getTableInfoRoute(clientHandler));
 
         //get("/template", new getTemplateRoute());
 
-        post("/multi", new postMultipleInstancesRoute(clientHandler));
+        post(MULTIPLE_INSTANCE_URL, new postMultipleInstancesRoute(clientHandler));
 
-        post("/startEnd", new postStartEndRoute(clientHandler));
+        post(START_END_URL, new postStartEndRoute(clientHandler));
 
-        post("/tableInfo", new postTableInfoRoute(clientHandler));
+        post(TABLE_INFO_URL, new postTableInfoRoute(clientHandler));
 
-        post("/template", new postTemplateRoute(clientHandler));
+        post(TEMPLATE_URL, new postTemplateRoute(clientHandler));
 
         LOG.finer("WebServer Initialized");
 

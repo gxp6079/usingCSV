@@ -27,11 +27,12 @@ public class postSignInRoute implements Route {
     public Object handle(Request request, Response response) throws Exception {
         String apiKey = request.queryParams("key");
 
-        // TODO check if key exists in something (file, map, etc.)
-        // put user into active user list with an id to keep track of their template creation
 
         request.session().attribute("template", new Template());
 
-        return null;
+        // TODO check if key exists in something (file, map, etc.)
+
+
+        return 0;
     }
 }
