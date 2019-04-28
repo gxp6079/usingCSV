@@ -1,6 +1,7 @@
 package Routes;
 
 import Application.ClientHandler;
+import Model.Field;
 import Model.TableFactory;
 import Model.Template;
 import Model.TemplateReader;
@@ -33,8 +34,12 @@ public class postTableInfoRoute implements Route {
 
         TableFactory factory = request.session().attribute("factory");
 
-        TemplateReader.getTables(currentTemplate, factory, response.raw().getOutputStream());
+        String fieldName = request.queryParams("field");
+        String value = request.queryParams("value");
+        int id = Integer.parseInt(request.queryParams("id"));
 
-        return null;
+        currentTemplate.addField(new Field(fieldName, id, value));
+
+        return 1;
     }
 }

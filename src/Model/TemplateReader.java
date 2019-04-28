@@ -86,6 +86,11 @@ public class TemplateReader {
         return null;
     }
 
+    public static void addToDB(Template template) throws SQLException {
+        Connection connection = DataBaseConnection.makeConnection();
+        DataBaseConnection.serializeJavaObjectToDB(connection, template);
+    }
+
 
     public static List<String[]> readAllLines(String filename) {
         try {

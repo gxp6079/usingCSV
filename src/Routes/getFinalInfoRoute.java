@@ -1,6 +1,8 @@
 package Routes;
 
 import Application.ClientHandler;
+import Model.Template;
+import Model.TemplateReader;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -24,6 +26,13 @@ public class getFinalInfoRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        return null;
+        String fileName = request.queryParams("fileName");
+
+        Template currentTemplate = request.session().attribute("template");
+
+        TemplateReader.addToDB(currentTemplate);
+        TemplateReader.readExistingTemplate(fileName, currentTemplate.getType(), response.raw().getOutputStream());
+
+        return 1;
     }
 }

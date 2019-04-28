@@ -20,13 +20,12 @@ public class postSignInRoute implements Route {
     public postSignInRoute(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
 
-        LOG.finer("postSignInRoute initialized");
+        LOG.config("postSignInRoute initialized");
     }
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
         String apiKey = request.queryParams("key");
-
 
         request.session().attribute("template", new Template());
 

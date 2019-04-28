@@ -45,11 +45,11 @@ public class postStartEndRoute implements Route {
             request.session().attribute("currentAttributes", tableAttributes);
 
             response.redirect(WebServer.MULTIPLE_INSTANCE_URL + "?num=" + factory.getNumLocations());
-            return null;
+            return 0;
         }
 
         TemplateReader.createTable(currentTemplate, start, end, 1);
 
-        return null;
+        return 1;
     }
 }

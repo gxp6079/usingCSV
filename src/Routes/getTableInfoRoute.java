@@ -1,6 +1,9 @@
 package Routes;
 
 import Application.ClientHandler;
+import Model.TableFactory;
+import Model.Template;
+import Model.TemplateReader;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -26,6 +29,12 @@ public class getTableInfoRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        return null;
+        Template currentTemplate = request.session().attribute("template");
+
+        TableFactory factory = request.session().attribute("factory");
+
+        TemplateReader.getTables(currentTemplate, factory, response.raw().getOutputStream());
+
+        return 1;
     }
 }

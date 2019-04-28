@@ -25,6 +25,8 @@ public class WebServer {
 
     public static final String FINAL_INFO = "/finalInfo";
 
+    public static final String SIGN_IN = "/signIn";
+
     public WebServer() {
     }
 
@@ -48,6 +50,8 @@ public class WebServer {
         post(TABLE_INFO_URL, new postTableInfoRoute(clientHandler));
 
         post(TEMPLATE_URL, new postTemplateRoute(clientHandler));
+
+        post(SIGN_IN, new postSignInRoute(clientHandler));
 
         LOG.finer("WebServer Initialized");
 

@@ -38,9 +38,11 @@ public class postTemplateRoute implements Route {
 
         ServletOutputStream out = response.raw().getOutputStream();
 
+        // Template fromDB = TemplateReader.readFromDB(templateType);
+
         if (TemplateReader.checkIfExists(templateType)) {
             TemplateReader.readExistingTemplate(filename, templateType, out);
-            return null;
+            return 1;
         }
 
         Template currentTemplate = request.session().attribute("template");
@@ -50,6 +52,6 @@ public class postTemplateRoute implements Route {
 
         request.session().attribute("factory", new TableFactory(lines));
 
-        return null;
+        return 0;
     }
 }
