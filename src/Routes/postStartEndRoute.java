@@ -1,6 +1,5 @@
 package Routes;
 
-import Application.ClientHandler;
 import Model.TableAttributes;
 import Model.TableFactory;
 import Model.Template;
@@ -20,10 +19,8 @@ import java.util.logging.Logger;
 public class postStartEndRoute implements Route {
     private static final Logger LOG = Logger.getLogger(postStartEndRoute.class.getName());
 
-    private ClientHandler clientHandler;
 
-    public postStartEndRoute(ClientHandler clientHandler) {
-        this.clientHandler = clientHandler;
+    public postStartEndRoute() {
 
         LOG.finer("postStartEndRoute initialized");
     }

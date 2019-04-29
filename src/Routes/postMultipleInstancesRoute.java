@@ -1,6 +1,5 @@
 package Routes;
 
-import Application.ClientHandler;
 import Model.TableAttributes;
 import Model.Template;
 import Model.TemplateReader;
@@ -17,10 +16,7 @@ import java.util.logging.Logger;
 public class postMultipleInstancesRoute implements Route {
     private static final Logger LOG = Logger.getLogger(postMultipleInstancesRoute.class.getName());
 
-    private ClientHandler clientHandler;
-
-    public postMultipleInstancesRoute(ClientHandler clientHandler) {
-        this.clientHandler = clientHandler;
+    public postMultipleInstancesRoute() {
 
         LOG.finer("postMultipleInstancesRoute initialized");
     }

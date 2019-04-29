@@ -1,6 +1,5 @@
 package Routes;
 
-import Application.ClientHandler;
 import Model.Template;
 import spark.Request;
 import spark.Response;
@@ -15,10 +14,8 @@ import java.util.logging.Logger;
 public class postSignInRoute implements Route {
     private static final Logger LOG = Logger.getLogger(postSignInRoute.class.getName());
 
-    private ClientHandler clientHandler;
 
-    public postSignInRoute(ClientHandler clientHandler) {
-        this.clientHandler = clientHandler;
+    public postSignInRoute() {
 
         LOG.config("postSignInRoute initialized");
     }

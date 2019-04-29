@@ -1,16 +1,12 @@
 package Routes;
 
 
-import Application.ClientHandler;
-
 import java.util.logging.Logger;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
 
 public class WebServer {
-
-    private final ClientHandler clientHandler = new ClientHandler();
 
     private static final Logger LOG = Logger.getLogger(WebServer.class.getName());
 
@@ -31,27 +27,27 @@ public class WebServer {
     }
 
     public void initialize() {
-        get(TEMPLATE_URL, new getTemplateRoute(clientHandler));
+        get(TEMPLATE_URL, new getTemplateRoute());
 
-        get(FINAL_INFO, new getFinalInfoRoute(clientHandler));
+        get(FINAL_INFO, new getFinalInfoRoute());
 
-        get(MULTIPLE_INSTANCE_URL, new getMultipleInstancesRoute(clientHandler));
+        get(MULTIPLE_INSTANCE_URL, new getMultipleInstancesRoute());
 
-        get(START_END_URL, new getStartEndRoute(clientHandler));
+        get(START_END_URL, new getStartEndRoute());
 
-        get(TABLE_INFO_URL, new getTableInfoRoute(clientHandler));
+        get(TABLE_INFO_URL, new getTableInfoRoute());
 
         //get("/template", new getTemplateRoute());
 
-        post(MULTIPLE_INSTANCE_URL, new postMultipleInstancesRoute(clientHandler));
+        post(MULTIPLE_INSTANCE_URL, new postMultipleInstancesRoute());
 
-        post(START_END_URL, new postStartEndRoute(clientHandler));
+        post(START_END_URL, new postStartEndRoute());
 
-        post(TABLE_INFO_URL, new postTableInfoRoute(clientHandler));
+        post(TABLE_INFO_URL, new postTableInfoRoute());
 
-        post(TEMPLATE_URL, new postTemplateRoute(clientHandler));
+        post(TEMPLATE_URL, new postTemplateRoute());
 
-        post(SIGN_IN, new postSignInRoute(clientHandler));
+        post(SIGN_IN, new postSignInRoute());
 
         LOG.finer("WebServer Initialized");
 

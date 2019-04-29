@@ -1,6 +1,5 @@
 package Routes;
 
-import Application.ClientHandler;
 import Model.TableFactory;
 import Model.Template;
 import Model.TemplateReader;
@@ -20,10 +19,8 @@ import java.util.logging.Logger;
 public class getTableInfoRoute implements Route {
     private static final Logger LOG = Logger.getLogger(getTableInfoRoute.class.getName());
 
-    private ClientHandler clientHandler;
 
-    public getTableInfoRoute(ClientHandler clientHandler) {
-        this.clientHandler = clientHandler;
+    public getTableInfoRoute() {
         LOG.finer("getTableInfoRoute initialized");
     }
 

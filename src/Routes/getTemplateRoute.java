@@ -1,6 +1,5 @@
 package Routes;
 
-import Application.ClientHandler;
 import Model.Main;
 import spark.Request;
 import spark.Response;
@@ -17,10 +16,7 @@ import java.util.logging.Logger;
 public class getTemplateRoute implements Route {
     private static final Logger LOG = Logger.getLogger(getTemplateRoute.class.getName());
 
-    private ClientHandler clientHandler;
-
-    public getTemplateRoute(ClientHandler clientHandler) {
-        this.clientHandler = clientHandler;
+    public getTemplateRoute() {
 
         LOG.finer("getTemplateRoute initialized");
     }

@@ -1,6 +1,5 @@
 package Routes;
 
-import Application.ClientHandler;
 import Model.TableFactory;
 import Model.Template;
 import Model.TemplateReader;
@@ -29,10 +28,7 @@ import java.util.logging.Logger;
 public class postTemplateRoute implements Route {
     private static final Logger LOG = Logger.getLogger(postTemplateRoute.class.getName());
 
-    private ClientHandler clientHandler;
-
-    public postTemplateRoute(ClientHandler clientHandler) {
-        this.clientHandler = clientHandler;
+    public postTemplateRoute() {
 
         LOG.finer("postTemplateRoute initialized");
     }

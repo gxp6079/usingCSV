@@ -1,6 +1,5 @@
 package Routes;
 
-import Application.ClientHandler;
 import Model.Template;
 import Model.TemplateReader;
 import spark.Request;
@@ -16,11 +15,7 @@ import java.util.logging.Logger;
 public class getFinalInfoRoute implements Route {
     private static final Logger LOG = Logger.getLogger(getFinalInfoRoute.class.getName());
 
-    private ClientHandler clientHandler;
-
-    public getFinalInfoRoute(ClientHandler clientHandler) {
-        this.clientHandler = clientHandler;
-
+    public getFinalInfoRoute() {
         LOG.finer("getFinalInfoRoute initialized");
     }
 
