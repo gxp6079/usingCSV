@@ -61,10 +61,13 @@ public class postTemplateRoute implements Route {
 
             try (final InputStream in = uploadedFile.getInputStream()) {
                 Files.copy(in, p);
+            } catch (Exception e) {
+                return null;
             }
 
             uploadedFile.delete();
             return p;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,21 +86,21 @@ public class postTemplateRoute implements Route {
             return "Error loading file from request body";
         }
 
-        String filename = path.getFileName().toString();
+        request.session().attribute("path", path);
 
         ServletOutputStream out = response.raw().getOutputStream();
 
         // Template fromDB = TemplateReader.readFromDB(templateType);
 
         if (TemplateReader.checkIfExists(templateType)) {
-            TemplateReader.readExistingTemplate(filename, templateType, out);
+            TemplateReader.readExistingTemplate(path.toString(), templateType, out);
             return 0;
         }
 
         Template currentTemplate = request.session().attribute("template");
         currentTemplate.setType(templateType);
 
-        List<String[]> lines = TemplateReader.readAllLines(filename);
+        List<String[]> lines = TemplateReader.readAllLines(path.toAbsolutePath().toString());
 
         request.session().attribute("factory", new TableFactory(lines));
 
