@@ -19,6 +19,6 @@ public class getUserExitRoute implements Route {
 
         request.session().invalidate();
 
-        return null;
+        return 1;
     }
 }

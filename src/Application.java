@@ -20,7 +20,7 @@ public class Application {
 
 
     public static void createDatabaseTable() {
-        String databaseUrl = "jdbc:mysql://129.21.117.231/PDFreader?serverTimezone=EST";
+        String databaseUrl = "jdbc:mysql://129.21.118.99/PDFreader?serverTimezone=EST";
 
         try {
             Connection connectionSource = DriverManager.getConnection(databaseUrl, "brit", "x0EspnYA8JaqCPT9");

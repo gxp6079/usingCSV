@@ -31,6 +31,6 @@ public class postMultipleInstancesRoute implements Route {
         TemplateReader.createTable(currentTemplate, tableAttributes.START, tableAttributes.END, instance);
 
         request.session().removeAttribute("currentAttributes");
-        return null;
+        return 1;
     }
 }

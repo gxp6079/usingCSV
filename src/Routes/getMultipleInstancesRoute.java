@@ -1,5 +1,7 @@
 package Routes;
 
+import Model.TableAttributes;
+import Model.TableFactory;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -23,6 +25,8 @@ public class getMultipleInstancesRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        return null;
+        TableFactory tableFactory = request.session().attribute("factory");
+        TableAttributes tableAttributes = request.session().attribute("currentAttributes");
+        return "Found " + tableFactory.getNumLocations() + " instances of start: " + tableAttributes.START;
     }
 }

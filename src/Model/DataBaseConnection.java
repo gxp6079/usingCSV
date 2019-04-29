@@ -95,7 +95,7 @@ public abstract class DataBaseConnection {
         Connection connection = null;
 
         String driver = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://192.168.1.5/PDFreader?serverTimezone=EST";
+        String url = "jdbc:mysql://129.21.118.99/PDFreader?serverTimezone=EST";
         String username = "brit";
         String password = "x0EspnYA8JaqCPT9";
         try {

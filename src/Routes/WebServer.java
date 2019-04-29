@@ -37,6 +37,8 @@ public class WebServer {
 
         get(TABLE_INFO_URL, new getTableInfoRoute());
 
+        get("/exit", new getUserExitRoute());
+
         //get("/template", new getTemplateRoute());
 
         post(MULTIPLE_INSTANCE_URL, new postMultipleInstancesRoute());
