@@ -17,7 +17,6 @@ public class postMultipleInstancesRoute implements Route {
     private static final Logger LOG = Logger.getLogger(postMultipleInstancesRoute.class.getName());
 
     public postMultipleInstancesRoute() {
-
         LOG.finer("postMultipleInstancesRoute initialized");
     }
 
