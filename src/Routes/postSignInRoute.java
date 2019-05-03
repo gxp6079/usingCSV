@@ -29,6 +29,6 @@ public class postSignInRoute implements Route {
         // TODO check if key exists in something (file, map, etc.)
 
 
-        return 0;
+        return 1;
     }
 }

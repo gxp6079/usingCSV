@@ -1,3 +1,4 @@
+import Model.DataBaseConnection;
 import Routes.WebServer;
 
 import java.sql.Connection;
@@ -7,10 +8,12 @@ import java.sql.Statement;
 import java.util.logging.Logger;
 
 public class Application {
+
     private static final Logger LOG = Logger.getLogger(Application.class.getName());
 
     public static void main(String[] args) {
 
+        createDatabaseTable();
 
         WebServer webServer = new WebServer();
         webServer.initialize();
@@ -20,7 +23,7 @@ public class Application {
 
 
     public static void createDatabaseTable() {
-        String databaseUrl = "jdbc:mysql://129.21.118.99/PDFreader?serverTimezone=EST";
+        String databaseUrl = DataBaseConnection.DATABASE_IP;
 
         try {
             Connection connectionSource = DriverManager.getConnection(databaseUrl, "brit", "x0EspnYA8JaqCPT9");

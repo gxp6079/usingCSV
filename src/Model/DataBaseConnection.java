@@ -11,6 +11,7 @@ import java.sql.SQLException;
 
 public abstract class DataBaseConnection {
 
+    public static final String DATABASE_IP = "jdbc:mysql://129.21.118.99/PDFreader?serverTimezone=EST";
     private static final String SQL_SERIALIZE_OBJECT = "INSERT INTO TEMPLATES(template_type, template_object) VALUES (?, ?)";
     private static final String SQL_DESERIALIZE_OBJECT = "SELECT template_object FROM TEMPLATES WHERE template_type = ?";
     private static final String SQL_OBJECT_EXISTS = "SELECT EXISTS (SELECT template_object FROM TEMPLATES WHERE template_type = ?) ";
@@ -76,6 +77,7 @@ public abstract class DataBaseConnection {
                     .prepareStatement(SQL_DESERIALIZE_OBJECT);
             pstmt.setString(1, type);
             rs = pstmt.executeQuery();
+
             rs.next();
 
             // Object object = rs.getObject(1);
@@ -95,7 +97,7 @@ public abstract class DataBaseConnection {
         Connection connection = null;
 
         String driver = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://129.21.118.99/PDFreader?serverTimezone=EST";
+        String url = DATABASE_IP;
         String username = "brit";
         String password = "x0EspnYA8JaqCPT9";
         try {
