@@ -44,7 +44,7 @@ public class TemplateReader {
         for (Field field : template.getFields().values()) {
             List<String> value = field.getValue(tables.get(field.TABLE_ID));
             values.put(field.NAME, value);
-            out.println(String.valueOf(value));
+            out.println(field.NAME + " :" + String.join(" | ", value));
         }
 
     }

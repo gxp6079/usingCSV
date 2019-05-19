@@ -86,6 +86,7 @@ public class Table {
                     return row.subList(0, row.size());
                 }
             }
+            return null;
         }
 
         ArrayList<String> data = new ArrayList<>();

@@ -23,6 +23,8 @@ public class WebServer {
 
     public static final String SIGN_IN = "/signIn";
 
+    public static final String EXIT = "/exit";
+
     public WebServer() {
     }
 
@@ -33,13 +35,9 @@ public class WebServer {
 
         get(MULTIPLE_INSTANCE_URL, new getMultipleInstancesRoute());
 
-        get(START_END_URL, new getStartEndRoute());
-
         get(TABLE_INFO_URL, new getTableInfoRoute());
 
-        get("/exit", new getUserExitRoute());
-
-        //get("/template", new getTemplateRoute());
+        get(EXIT, new getUserExitRoute());
 
         post(MULTIPLE_INSTANCE_URL, new postMultipleInstancesRoute());
 

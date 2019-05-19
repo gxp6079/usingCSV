@@ -66,10 +66,10 @@ public class TableFactory {
         this.col = 0;
         this.start = start.trim().toLowerCase();
         this.end = end.trim().toLowerCase();
-        this.locations = getLocation(this.start);
+        this.locations = getLocation(this.start, this.end);
     }
 
-    public List<Integer[]> getLocation(String start){
+    public List<Integer[]> getLocation(String start, String end){
         List<Integer[]> locations = new ArrayList<>();
         int leftCol = 0;
         int row = 0;
@@ -78,7 +78,7 @@ public class TableFactory {
                 Integer[] loc = new Integer[2];
                 loc[0] = row;
                 loc[1] = leftCol;
-                locations.add(loc);
+                if (hasEnd(end, row)) locations.add(loc);
             }
             if(leftCol == list.get(row).length - 1){
                 leftCol = 0;
@@ -91,6 +91,30 @@ public class TableFactory {
         return locations;
     }
 
+    private boolean hasEnd(String end, int row) {
+        int col = 0;
+        try {
+            while (row < list.size()) {
+                String val = list.get(row)[col].trim().toLowerCase();
+                if (val.equals(end)) return true;
+                if (col == list.get(row).length - 1) {
+                    col = 0;
+                    tableRow.clear();
+                    this.row++;
+                    if (row >= list.size()) {
+                        // END string not found
+                        return false;
+                    }
+                } else {
+                    col++;
+                }
+            }
+        } catch (NullPointerException e) {
+            return false;
+        }
+        return false;
+    }
+
     public int getNumLocations() {
         return this.locations.size();
     }
@@ -100,7 +124,7 @@ public class TableFactory {
 
         boolean finishedHead = false;
 
-        List<Integer[]> locations = getLocation(start);
+        List<Integer[]> locations = getLocation(start, end);
         if(locations.size() != 1){
             if(locations.size() == 0){
                 System.out.println("Start not found");

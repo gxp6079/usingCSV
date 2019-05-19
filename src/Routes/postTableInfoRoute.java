@@ -1,12 +1,14 @@
 package Routes;
 
 import Model.Field;
+import Model.Table;
 import Model.TableFactory;
 import Model.Template;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.Map;
 import java.util.logging.Logger;
 
 
@@ -33,6 +35,19 @@ public class postTableInfoRoute implements Route {
         String fieldName = request.queryParams("field");
         String value = request.queryParams("value");
         int id = Integer.parseInt(request.queryParams("id"));
+
+        Map<Integer, Table> tables = request.session().attribute("tables");
+
+        Table curr = tables.get(id);
+        if (curr == null) {
+            response.status(400);
+            return "table id not found";
+        }
+
+        if (curr.getDataAt(value) == null) {
+            response.status(400);
+            return "value not found in table";
+        }
 
         currentTemplate.addField(new Field(fieldName, id, value));
 

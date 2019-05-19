@@ -11,7 +11,8 @@ import java.sql.SQLException;
 
 public abstract class DataBaseConnection {
 
-    public static final String DATABASE_IP = "jdbc:mysql://129.21.118.99/PDFreader?serverTimezone=EST";
+    // 192.168.1.5
+    public static final String DATABASE_IP = "jdbc:mysql://localhost/PDFreader?serverTimezone=EST";
     private static final String SQL_SERIALIZE_OBJECT = "INSERT INTO TEMPLATES(template_type, template_object) VALUES (?, ?)";
     private static final String SQL_DESERIALIZE_OBJECT = "SELECT template_object FROM TEMPLATES WHERE template_type = ?";
     private static final String SQL_OBJECT_EXISTS = "SELECT EXISTS (SELECT template_object FROM TEMPLATES WHERE template_type = ?) ";
@@ -98,8 +99,8 @@ public abstract class DataBaseConnection {
 
         String driver = "com.mysql.cj.jdbc.Driver";
         String url = DATABASE_IP;
-        String username = "brit";
-        String password = "x0EspnYA8JaqCPT9";
+        String username = "brit"; //"brit";
+        String password = "x0EspnYA8JaqCPT9"; //"x0EspnYA8JaqCPT9";
         try {
             Class.forName(driver);
         } catch (ClassNotFoundException e) {

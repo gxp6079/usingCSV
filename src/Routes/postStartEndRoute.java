@@ -1,13 +1,12 @@
 package Routes;
 
-import Model.TableAttributes;
-import Model.TableFactory;
-import Model.Template;
-import Model.TemplateReader;
+import Model.*;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 
@@ -30,12 +29,16 @@ public class postStartEndRoute implements Route {
         String start = request.queryParams("start");
         String end = request.queryParams("end");
 
-        // TODO call tableReader.makeTable(table factory, template, start, end, instance)
-
         Template currentTemplate = request.session().attribute("template");
 
         TableFactory factory = request.session().attribute("factory");
         factory.initialize(start, end);
+
+        if (factory.getNumLocations() == 0) {
+            //start or end not found
+            response.status(400);
+            return "Start or end not found";
+        }
 
         if (factory.getNumLocations() > 1) {
             TableAttributes tableAttributes = new TableAttributes(start, end);
@@ -44,6 +47,17 @@ public class postStartEndRoute implements Route {
             response.redirect(WebServer.MULTIPLE_INSTANCE_URL + "?num=" + factory.getNumLocations());
             return null;
         }
+
+        Map<Integer, Table> tables;
+        if (!request.session().attributes().contains("tables")) {
+            tables = new HashMap<>();
+        } else {
+            tables = request.session().attribute("tables");
+        }
+
+        Table curr = factory.makeTable(1);
+
+        tables.put(curr.hashCode(), curr);
 
         TemplateReader.createTable(currentTemplate, start, end, 1);
 
