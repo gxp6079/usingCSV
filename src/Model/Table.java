@@ -62,7 +62,11 @@ public class Table {
         header = header.trim().toLowerCase();
         int col = 0;
         for (int i : headerList.keySet()) {
-            if (headerList.get(i).getValue().contains(header)) break;
+            String val = headerList.get(i).getValue();
+            if (val.contains(header)){
+                found = true;
+                break;
+            }
             else if (headerList.get(i).hasChildren()) {
                 for (Header h : headerList.get(i).getChildren()) {
                     if (h.getValue().contains(header)){

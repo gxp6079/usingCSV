@@ -44,7 +44,8 @@ public class postTemplateRoute implements Route {
             try {
                 filename = request.raw().getPart("file").getSubmittedFileName();
             } catch (Exception e) {
-                return null;
+                Path p = Paths.get(Paths.get("").toAbsolutePath().toString() + "/temp/" + "NewPDF.csv").toAbsolutePath();
+                return p;
             }
 
             if (!Files.exists(Paths.get(Paths.get("").toAbsolutePath() + "/temp/"))) {
@@ -58,16 +59,17 @@ public class postTemplateRoute implements Route {
             try (final InputStream in = uploadedFile.getInputStream()) {
                 Files.copy(in, p);
             } catch (Exception e) {
-                return null;
+                p = Paths.get(Paths.get("").toAbsolutePath().toString() + "/temp/" + "NewPDF.csv").toAbsolutePath();
+                return p;
             }
 
             uploadedFile.delete();
             return p;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Path p = Paths.get(Paths.get("").toAbsolutePath().toString() + "/temp/" + "NewPDF.csv").toAbsolutePath();
+            return p;
         }
-        return null;
     }
 
 

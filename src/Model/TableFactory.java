@@ -100,7 +100,7 @@ public class TableFactory {
                 if (col == list.get(row).length - 1) {
                     col = 0;
                     tableRow.clear();
-                    this.row++;
+                    row++;
                     if (row >= list.size()) {
                         // END string not found
                         return false;
@@ -124,7 +124,6 @@ public class TableFactory {
 
         boolean finishedHead = false;
 
-        List<Integer[]> locations = getLocation(start, end);
         if(locations.size() != 1){
             if(locations.size() == 0){
                 System.out.println("Start not found");

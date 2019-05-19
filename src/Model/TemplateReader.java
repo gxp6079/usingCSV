@@ -49,7 +49,7 @@ public class TemplateReader {
 
     }
 
-    public static void getTables(Template template, TableFactory tableFactory, ServletOutputStream out) throws IOException {
+    public static HashMap<Integer, Table> getTables(Template template, TableFactory tableFactory, ServletOutputStream out) throws IOException {
 
         HashMap<Integer, Table> tables = new HashMap<>();
 
@@ -64,6 +64,8 @@ public class TemplateReader {
             out.println(String.valueOf(tables.get(id)));
             out.println("\n");
         }
+
+        return tables;
     }
 
     public static void createTable(Template template, String start, String end, int instance){

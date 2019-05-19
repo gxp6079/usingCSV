@@ -1,5 +1,6 @@
 package Routes;
 
+import Model.Table;
 import Model.TableFactory;
 import Model.Template;
 import Model.TemplateReader;
@@ -7,6 +8,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 
@@ -30,7 +32,9 @@ public class getTableInfoRoute implements Route {
 
         TableFactory factory = request.session().attribute("factory");
 
-        TemplateReader.getTables(currentTemplate, factory, response.raw().getOutputStream());
+        HashMap<Integer, Table> tables = TemplateReader.getTables(currentTemplate, factory, response.raw().getOutputStream());
+
+        request.session().attribute("tables", tables);
 
         return 1;
     }
