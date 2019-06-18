@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="httpclient" />
         <module name="usingCSV" />
+        <module name="httpclient" />
       </profile>
     </annotationProcessing>
   </component>

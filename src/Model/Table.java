@@ -1,13 +1,8 @@
-package com.company;
-
-import org.apache.commons.lang3.StringUtils;
+package Model;
 
 import java.util.*;
 
-import static java.util.Collections.min;
-
 public class Table {
-    private int page;
     private List<List<String>> table;
 
     private String start;
@@ -25,10 +20,9 @@ public class Table {
      */
     private Map<Integer, Header> subHeaders;
 
-    public Table(int page, String start, String end){
+    public Table(String start, String end){
         this.headerList = new TreeMap<Integer, Header>();
         this.subHeaders =  new TreeMap<Integer, Header>();
-        this.page = page;
         this.start = start;
         this.end = end;
         this.table = new ArrayList<List<String>>();
@@ -65,19 +59,24 @@ public class Table {
 
     public List<String> getDataAt(String header) {
         boolean found = false;
+        header = header.trim().toLowerCase();
         int col = 0;
         for (int i : headerList.keySet()) {
-            if (headerList.get(i).getValue().equals(header)) break;
+            String val = headerList.get(i).getValue();
+            if (val.contains(header)){
+                found = true;
+                break;
+            }
             else if (headerList.get(i).hasChildren()) {
                 for (Header h : headerList.get(i).getChildren()) {
-                    if (h.getValue().equals(header)){
+                    if (h.getValue().contains(header)){
                         found = true;
                         break;
                     }
                     col++;
                 }
             } else {
-                if (headerList.get(i).getValue().equals(header)){
+                if (headerList.get(i).getValue().contains(header)){
                     found = true;
                     break;
                 }
@@ -87,10 +86,11 @@ public class Table {
 
         if (!found){
             for (List<String> row : table){
-                if(row.get(0).equals(header)){
-                    return row.subList(1, row.size());
+                if(row.get(0).contains(header)){
+                    return row.subList(0, row.size());
                 }
             }
+            return null;
         }
 
         ArrayList<String> data = new ArrayList<>();
@@ -98,11 +98,6 @@ public class Table {
             data.add(table.get(i).get(col));
         }
         return data;
-    }
-
-
-    public int getPage(){
-        return this.page;
     }
 
     public String toString(){
@@ -144,6 +139,6 @@ public class Table {
 
     @Override
     public int hashCode() {
-        return start.hashCode() + end.hashCode() + page;
+        return start.hashCode() + end.hashCode();
     }
 }

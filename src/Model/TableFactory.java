@@ -1,4 +1,4 @@
-package com.company;
+package Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +8,6 @@ public class TableFactory {
      * left most column of the table
      */
     private int leftCol;
-
-    /**
-     * page that the table lies on
-     */
-    private int page;
 
     /**
      * current column that the factory is currently looking at
@@ -49,6 +44,8 @@ public class TableFactory {
      */
     private String end;
 
+    private List<Integer[]> locations;
+
 
     public TableFactory(List<String[]> list) {
         this.tableRow = new ArrayList<>();
@@ -56,38 +53,92 @@ public class TableFactory {
         this.list = list;
         this.row = 0;
         this.col = 0;
-        this.page = page = -1;
 
         this.start = start = "";
         this.end = end = "";
     }
 
 
-    public void initialize(String start, String end, int page) {
+    public void initialize(String start, String end) {
         this.tableRow.clear();
         this.dataIndexes.clear();
         this.row = 0;
         this.col = 0;
-        this.page = page;
-        this.start = start;
-        this.end = end;
+        this.start = start.trim().toLowerCase();
+        this.end = end.trim().toLowerCase();
+        this.locations = getLocation(this.start, this.end);
+    }
+
+    public List<Integer[]> getLocation(String start, String end){
+        List<Integer[]> locations = new ArrayList<>();
+        int leftCol = 0;
+        int row = 0;
+        while(row < list.size()){
+            if(list.get(row)[leftCol].trim().toLowerCase().equals(start)){
+                Integer[] loc = new Integer[2];
+                loc[0] = row;
+                loc[1] = leftCol;
+                if (hasEnd(end, row)) locations.add(loc);
+            }
+            if(leftCol == list.get(row).length - 1){
+                leftCol = 0;
+                row ++;
+            }
+            else{
+                leftCol++;
+            }
+        }
+        return locations;
+    }
+
+    private boolean hasEnd(String end, int row) {
+        int col = 0;
+        try {
+            while (row < list.size()) {
+                String val = list.get(row)[col].trim().toLowerCase();
+                if (val.equals(end)) return true;
+                if (col == list.get(row).length - 1) {
+                    col = 0;
+                    tableRow.clear();
+                    row++;
+                    if (row >= list.size()) {
+                        // END string not found
+                        return false;
+                    }
+                } else {
+                    col++;
+                }
+            }
+        } catch (NullPointerException e) {
+            return false;
+        }
+        return false;
+    }
+
+    public int getNumLocations() {
+        return this.locations.size();
     }
 
 
-    public Table makeTable() {
-        if (this.page == -1) return null;
-        int currPage = 1;
-        while(this.page != currPage){
-            if(list.get(this.row).length == 1 && list.get(this.row)[0].equals("")){
-                currPage ++;
-            }
-            this.row++;
-        }
+    public Table makeTable(int location) {
 
         boolean finishedHead = false;
 
-        this.getLeftCol(start);
-        Table table = new Table(page, start, end);
+        if(locations.size() != 1){
+            if(locations.size() == 0){
+                System.out.println("Start not found");
+                return new Table(start, end);
+            }
+            else{
+                this.row = locations.get(location - 1)[0];
+                this.leftCol = locations.get(location - 1)[1];
+            }
+        }
+        else{
+            this.row = locations.get(0)[0];
+            this.leftCol = locations.get(0)[1];
+        }
+        Table table = new Table(start, end);
 
         initializeHeaders(table);
 
@@ -95,9 +146,9 @@ public class TableFactory {
 
         this.row++;
         this.col = this.leftCol;
-        String val = list.get(row)[col];
+        String val = list.get(row)[col].trim().toLowerCase();
         while(!val.equals(end)) {
-            val = list.get(row)[col];
+            val = list.get(row)[col].trim().toLowerCase();
             if (col >= leftCol) {
                 if(col == leftCol && !val.equals("")) finishedHead = true;
                 checkEntry(table, finishedHead);
@@ -106,10 +157,14 @@ public class TableFactory {
             }
 
             if(col == list.get(row).length - 1) {
-                if(!list.get(row)[leftCol].equals("")) table.addRow(tableRow);
+                if(!list.get(row)[leftCol].equals("") && !tableRow.get(0).contains("...")) table.addRow(tableRow);
                 col = 0;
                 tableRow.clear();
                 this.row++;
+                if (row >= list.size()) {
+                    System.out.println("End no found");
+                    return new Table(start, end);
+                }
             } else {
                 col++;
             }
@@ -119,9 +174,9 @@ public class TableFactory {
 
 
     private void checkEntry(Table table, boolean finishedHead) {
-        String val = list.get(row)[col];
+        String val = list.get(row)[col].trim().toLowerCase();
         if (!val.equals("")) {
-            if (!finishedHead && list.get(row)[leftCol].equals("")) {
+            if (!finishedHead && list.get(row)[leftCol].trim().equals("")) {
                 makeSubHeader(table, val);
             } else {
                 if (!dataIndexes.contains(this.col)) {
@@ -167,12 +222,12 @@ public class TableFactory {
             else break;
         }
 
-        if (list.get(row)[lastData].equals("")) {
+        if (list.get(row)[lastData].trim().equals("")) {
             tableRow.remove(tableRow.size() - 1);
         } else {
             for (int idx = 0; idx < dataIndexes.size(); idx++) {
                 if (idx == dataIndexes.size() - 1) {
-                    String val = list.get(row)[col];
+                    String val = list.get(row)[col].trim().toLowerCase();
                     Header parent = table.getHeader(col);
 
                     Header child;
@@ -191,7 +246,7 @@ public class TableFactory {
 
                 } else if (col > dataIndexes.get(idx) && col < dataIndexes.get(idx + 1)){
                     Header parent = table.getHeader(dataIndexes.get(idx));
-                    Header child = new Header(row, col, list.get(row)[col], parent);
+                    Header child = new Header(row, col, list.get(row)[col].trim().toLowerCase(), parent);
 
                     if (child.hasParent()) {
                         table.addSubHeader(child);
@@ -219,30 +274,14 @@ public class TableFactory {
 
     private void initializeHeaders(Table table) {
         for (this.col = this.leftCol; this.col < list.get(this.row).length; this.col++) {
-            String val = list.get(this.row)[this.col];
+            String val = list.get(this.row)[this.col].trim().toLowerCase();
             if (!val.equals("")) {
                 Header header = new Header(this.row, this.col, val);
                 table.addHeader(header);
-                this.tableRow.add(val);
-
+                if (!val.contains("...")) this.tableRow.add(val);
                 dataIndexes.add(col);
             }
         }
-    }
-
-
-    private void getLeftCol(String start) {
-        this.leftCol = 0;
-        while(!list.get(row)[leftCol].equals(start)){
-            if(leftCol == list.get(row).length - 1){
-                leftCol = 0;
-                row ++;
-            }
-            else{
-                leftCol++;
-            }
-        }
-
     }
 
 }
