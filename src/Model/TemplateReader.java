@@ -3,7 +3,6 @@ package Model;
 import com.opencsv.CSVReader;
 
 import javax.servlet.ServletOutputStream;
-import javax.xml.crypto.Data;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,7 +12,7 @@ public class TemplateReader {
 
     public static boolean checkIfExists(String templateName) throws SQLException {
         Connection connection = DataBaseConnection.makeConnection();
-        return DataBaseConnection.checkItObjExists(connection, templateName);
+        return DataBaseConnection.checkIfObjExists(connection, templateName);
     }
 
     public static void readExistingTemplate(String filename, String templateName, ServletOutputStream out) throws IOException {

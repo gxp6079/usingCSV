@@ -66,18 +66,18 @@ public class Main {
         }
     }
     public static int run_with_csv(ServletOutputStream out, ServletInputStream in) throws IOException {
-        Scanner scan = new Scanner(System.in);
-        TemplateReader reader = new TemplateReader();
-        BufferedReader input = new BufferedReader( new InputStreamReader(in));
-        //outputStream.write("Enter csv file name:".getBytes());
+//        Scanner scan = new Scanner(System.in);
+//        TemplateReader reader = new TemplateReader();
+//        BufferedReader input = new BufferedReader( new InputStreamReader(in));
+//        outputStream.write("Enter csv file name:".getBytes());
         out.println("Enter csv file name:");
         out.flush();
-        String filename = input.readLine();
+//        String filename = input.readLine();
         out.println("Enter the template type:");
         out.flush();
-        String templateName = input.readLine();
-        //reader.readTemplate(filename, templateName, out);
-        out.flush();
+//        String templateName = input.readLine();
+//        reader.readTemplate(filename, templateName, out);
+//        out.flush();
         return 1;
     }
 
